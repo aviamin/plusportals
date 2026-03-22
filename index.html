@@ -102,7 +102,7 @@ input,textarea,td,th,.dpb,.dpb *{user-select:text;-webkit-user-select:text}
 button{font-family:var(--fb);cursor:pointer}
 
 /* LOGIN */
-#login{display:flex;align-items:center;justify-content:center;height:100vh;background:var(--bg0);position:relative;overflow:hidden}
+#login{display:flex;align-items:center;justify-content:center;height:100dvh;background:var(--bg0);position:relative;overflow:hidden}
 #login::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 30%,var(--abg) 0%,transparent 65%)}
 .lcard{position:relative;z-index:1;width:420px;padding:48px 44px;background:var(--bg1);border:1px solid var(--border2);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
 .l-eye{font-family:var(--fm);font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
@@ -118,10 +118,10 @@ button{font-family:var(--fb);cursor:pointer}
 .l-err{color:var(--red);font-size:12px;margin-top:10px;min-height:18px;font-family:var(--fm);text-align:center}
 
 /* APP */
-#app{display:none;height:100vh;grid-template-rows:48px 1fr;grid-template-columns:230px 1fr}
+#app{display:none;height:100dvh;grid-template-rows:48px 1fr;grid-template-columns:230px 1fr}
 
 /* Topbar */
-#topbar{grid-column:1/-1;background:var(--bg1);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:10px;z-index:50;flex-shrink:0}
+#topbar{grid-column:1/-1;grid-row:1;background:var(--bg1);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:10px;z-index:50;flex-shrink:0}
 .tb-brand{font-family:var(--fd);font-style:var(--fi);font-size:17px;color:var(--accent);white-space:nowrap}
 .tb-sep{width:1px;height:18px;background:var(--border2);flex-shrink:0}
 #period-tabs{display:flex;gap:3px;overflow-x:auto}#period-tabs::-webkit-scrollbar{display:none}
@@ -263,6 +263,120 @@ button{font-family:var(--fb);cursor:pointer}
 .ik{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text2)}
 .iv{font-family:var(--fm);font-size:12px}
 .pfg{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+
+/* ── Responsive (tablet / iPad) ─────────────────────────────────────────────── */
+@media(max-width:1024px){
+
+  /* Layout: shrink sidebar */
+  #app{grid-template-columns:180px 1fr}
+
+  /* Sidebar: smaller text, hide courses list to save space */
+  #sb-courses{display:none!important}
+  .sb-foot{padding:10px 12px}
+  .sb-gv{font-size:24px}
+
+  /* Topbar: hide username to save space */
+  .tb-user{display:none}
+
+  /* Detail panel: full width on tablet */
+  #dp{width:min(600px,100vw)}
+
+  /* Stats: 2 columns instead of 4 */
+  .sr{grid-template-columns:repeat(2,1fr)}
+
+  /* Charts: single column */
+  .cg2{grid-template-columns:1fr}
+
+  /* Grade table: hide Teacher, Pd, Room */
+  .gt th:nth-child(2),.gt td:nth-child(2),
+  .gt th:nth-child(3),.gt td:nth-child(3),
+  .gt th:nth-child(4),.gt td:nth-child(4){display:none}
+
+  /* Main: less padding */
+  #main{padding:14px 16px}
+
+  /* Login: single column username/password */
+  .field-row{grid-template-columns:1fr}
+
+  /* Profile grid single col */
+  .pfg{grid-template-columns:1fr}
+
+  /* Period tabs: allow scrolling if needed */
+  #period-tabs{max-width:calc(100vw - 320px)}
+}
+
+/* Narrow tablet / large phone landscape */
+@media(max-width:768px){
+
+  /* Layout: sidebar becomes top nav bar */
+  #app{
+    grid-template-columns:1fr;
+    grid-template-rows:48px auto 1fr;
+    height:100dvh
+  }
+  #topbar{grid-column:1;grid-row:1}
+
+  /* Sidebar as horizontal strip on row 2 */
+  #sb{
+    grid-row:2;
+    grid-column:1;
+    flex-direction:row;
+    overflow-x:auto;
+    overflow-y:hidden;
+    border-right:none;
+    border-bottom:1px solid var(--border);
+    height:auto;
+    min-height:0;
+    padding:4px 8px;
+    gap:4px;
+    align-items:center
+  }
+  #sb::-webkit-scrollbar{display:none}
+  .sb-sec{flex-direction:row;padding:0;gap:2px;flex-shrink:0}
+  .sb-lbl{display:none}
+  .ni{padding:5px 10px;font-size:11px;white-space:nowrap;border-radius:5px}
+  .sb-foot{
+    margin-left:auto;
+    margin-top:0;
+    padding:4px 12px;
+    border-top:none;
+    border-left:1px solid var(--border);
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    gap:10px
+  }
+  .sb-gl{display:none}
+  .sb-gv{font-size:16px;line-height:1}
+  .sb-av{font-size:10px;margin-top:0}
+
+  /* Main on row 3 */
+  #main{grid-row:3;grid-column:1;padding:12px 14px;overflow-y:auto}
+
+  /* Detail panel full screen */
+  #dp{width:100vw;top:0;height:100dvh;z-index:300}
+
+  /* Stats 2 col */
+  .sr{grid-template-columns:repeat(2,1fr);gap:7px}
+
+  /* Charts single col */
+  .cg2{grid-template-columns:1fr}
+
+  /* Grade table minimal */
+  .gt th:nth-child(2),.gt td:nth-child(2),
+  .gt th:nth-child(3),.gt td:nth-child(3),
+  .gt th:nth-child(4),.gt td:nth-child(4),
+  .gt th:nth-child(6),.gt td:nth-child(6){display:none}
+
+  /* Period tabs fit */
+  #period-tabs{max-width:calc(100vw - 140px)}
+  .ptab{font-size:10px;padding:3px 8px}
+
+  /* Topbar */
+  .tb-user{display:none}
+  #theme-sel{display:none}
+  .tb-brand{font-size:14px}
+}
 </style>
 </head>
 <body>
@@ -410,7 +524,7 @@ const fmt=(p,d=1)=>p==null?`<span class="dim">—</span>`:`<span class="${gc(p)}
 const dlt=d=>d==null?`<span class="dim">—</span>`:`<span class="${d>=0?'dp2':'dn2'}">${d>=0?'+':''}${d.toFixed(1)}</span>`;
 // ── Backend config ───────────────────────────────────────────────────────────
 // Only line you ever need to change — paste your Railway URL here after deploy
-const RAILWAY_URL='web-production-3c9c5.up.railway.app';
+const RAILWAY_URL='https://web-production-3c9c5.up.railway.app';
 // Auto-detects: empty string when local (relative URLs work), Railway URL in production
 const API_BASE=window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1'?'':RAILWAY_URL;
 const api=async(p,o={})=>{const r=await fetch(API_BASE+p,{headers:{'Content-Type':'application/json'},credentials:'include',...o});return r.json()};
