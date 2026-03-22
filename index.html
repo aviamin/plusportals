@@ -170,7 +170,7 @@ button{font-family:var(--fb);cursor:pointer}
 .bdg{display:inline-block;font-family:var(--fm);font-size:10px;font-weight:500;padding:2px 6px;border-radius:4px}
 
 /* Detail panel */
-#dp{position:fixed;right:0;top:48px;width:600px;height:calc(100vh - 48px);background:var(--bg1);border-left:1px solid var(--border);transform:translateX(100%);transition:transform .24s cubic-bezier(.4,0,.2,1);overflow:hidden;display:flex;flex-direction:column;z-index:200}
+#dp{position:fixed;right:0;top:48px;width:600px;height:calc(100dvh - 48px);background:var(--bg1);border-left:1px solid var(--border);transform:translateX(100%);transition:transform .24s cubic-bezier(.4,0,.2,1);overflow:hidden;display:flex;flex-direction:column;z-index:200}
 #dp.open{transform:none}
 #dp-x{position:absolute;top:11px;right:11px;background:var(--bg2);border:1px solid var(--border2);color:var(--text2);border-radius:50%;width:24px;height:24px;font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;z-index:1}
 #dp-x:hover{color:var(--text);border-color:var(--accent)}
@@ -180,7 +180,7 @@ button{font-family:var(--fb);cursor:pointer}
 .dptabs{display:flex;border-bottom:1px solid var(--border);padding:0 18px;flex-shrink:0}
 .dpt{padding:8px 11px;font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .12s;margin-bottom:-1px;text-transform:uppercase}
 .dpt.on{color:var(--accent);border-bottom-color:var(--accent)}
-.dpb{padding:14px 20px;flex:1;overflow-y:auto}
+.dpb{padding:14px 20px;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 
 /* Tables */
 .at,.yt,.wit{width:100%;border-collapse:collapse;font-size:12px}
@@ -338,13 +338,16 @@ button{font-family:var(--fb);cursor:pointer}
   .sb-foot{
     margin-left:auto;
     margin-top:0;
-    padding:4px 12px;
+    padding:4px 16px;
     border-top:none;
     border-left:1px solid var(--border);
     flex-shrink:0;
     display:flex;
+    flex-direction:column;
     align-items:center;
-    gap:10px
+    justify-content:center;
+    text-align:center;
+    gap:2px
   }
   .sb-gl{display:none}
   .sb-gv{font-size:16px;line-height:1}
