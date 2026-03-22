@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PlusPortals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Lexend:wght@300;400;500;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* THEMES */
+:root,[data-theme="ember"]{
+  --bg0:#131110;--bg1:#1c1917;--bg2:#262320;--bg3:#302d2a;
+  --border:#3a3633;--border2:#484440;
+  --text:#f5f0e8;--text2:#a89d8e;--text3:#665f56;
+  --accent:#f59e0b;--accent2:#fbbf24;--abg:rgba(245,158,11,.09);
+  --green:#4ade80;--gbg:rgba(74,222,128,.09);
+  --red:#f87171;--rbg:rgba(248,113,113,.09);
+  --yellow:#fbbf24;--ybg:rgba(251,191,36,.09);
+  --c1:#f59e0b;--c2:#f87171;--c3:#4ade80;--c4:#60a5fa;--c5:#c084fc;
+  --fd:'DM Serif Display',serif;--fb:'Outfit',sans-serif;--fm:'DM Mono',monospace;--fi:italic;
+}
+[data-theme="frost"]{
+  --bg0:#f4f7fb;--bg1:#fff;--bg2:#edf2f8;--bg3:#e2e9f2;
+  --border:#ccd8e8;--border2:#b0c4d8;
+  --text:#0d1f30;--text2:#4a6278;--text3:#9aaabb;
+  --accent:#1a6fb0;--accent2:#2b8fd8;--abg:rgba(26,111,176,.07);
+  --green:#116637;--gbg:rgba(17,102,55,.07);
+  --red:#b83232;--rbg:rgba(184,50,50,.07);
+  --yellow:#9a5f00;--ybg:rgba(154,95,0,.07);
+  --c1:#1a6fb0;--c2:#b83232;--c3:#116637;--c4:#6b21a8;--c5:#9a5f00;
+  --fd:'Playfair Display',serif;--fb:'Lexend',sans-serif;--fm:'IBM Plex Mono',monospace;--fi:italic;
+}
+[data-theme="void"]{
+  --bg0:#000;--bg1:#090909;--bg2:#111;--bg3:#1a1a1a;
+  --border:#1e1e1e;--border2:#2a2a2a;
+  --text:#f0f0f0;--text2:#555;--text3:#2a2a2a;
+  --accent:#00ff88;--accent2:#00cc6a;--abg:rgba(0,255,136,.06);
+  --green:#00ff88;--gbg:rgba(0,255,136,.06);
+  --red:#ff2255;--rbg:rgba(255,34,85,.06);
+  --yellow:#ffcc00;--ybg:rgba(255,204,0,.06);
+  --c1:#00ff88;--c2:#ff2255;--c3:#0088ff;--c4:#ffcc00;--c5:#cc44ff;
+  --fd:'DM Mono',monospace;--fb:'DM Mono',monospace;--fm:'DM Mono',monospace;--fi:normal;
+}
+[data-theme="rose"]{
+  --bg0:#120810;--bg1:#1d0f18;--bg2:#281521;--bg3:#341b2c;
+  --border:#46243a;--border2:#5a2f4c;
+  --text:#fce8f0;--text2:#c06880;--text3:#783048;
+  --accent:#f43f5e;--accent2:#fb7185;--abg:rgba(244,63,94,.09);
+  --green:#4ade80;--gbg:rgba(74,222,128,.09);
+  --red:#f43f5e;--rbg:rgba(244,63,94,.12);
+  --yellow:#fbbf24;--ybg:rgba(251,191,36,.09);
+  --c1:#f43f5e;--c2:#fb7185;--c3:#4ade80;--c4:#fbbf24;--c5:#818cf8;
+  --fd:'Crimson Pro',serif;--fb:'Outfit',sans-serif;--fm:'DM Mono',monospace;--fi:italic;
+}
+[data-theme="slate"]{
+  --bg0:#070b16;--bg1:#0e1424;--bg2:#161e34;--bg3:#1e2844;
+  --border:#283454;--border2:#344468;
+  --text:#dce4f8;--text2:#6878b8;--text3:#3c4870;
+  --accent:#7c83fd;--accent2:#a5abff;--abg:rgba(124,131,253,.09);
+  --green:#6ee7b7;--gbg:rgba(110,231,183,.09);
+  --red:#fca5a5;--rbg:rgba(252,165,165,.09);
+  --yellow:#fcd34d;--ybg:rgba(252,211,77,.09);
+  --c1:#7c83fd;--c2:#fca5a5;--c3:#6ee7b7;--c4:#fcd34d;--c5:#f0abfc;
+  --fd:'Playfair Display',serif;--fb:'Lexend',sans-serif;--fm:'IBM Plex Mono',monospace;--fi:italic;
+}
+[data-theme="sand"]{
+  --bg0:#f9f5ee;--bg1:#fff;--bg2:#f3ede3;--bg3:#e9e0d0;
+  --border:#dbd0be;--border2:#c8b89a;
+  --text:#1e140a;--text2:#6b5438;--text3:#b09070;
+  --accent:#7c3d0c;--accent2:#9e4f18;--abg:rgba(124,61,12,.08);
+  --green:#285c34;--gbg:rgba(40,92,52,.08);
+  --red:#8c1c1c;--rbg:rgba(140,28,28,.08);
+  --yellow:#7c3d0c;--ybg:rgba(124,61,12,.08);
+  --c1:#7c3d0c;--c2:#8c1c1c;--c3:#285c34;--c4:#1e3a8a;--c5:#5b21b6;
+  --fd:'Crimson Pro',serif;--fb:'Lexend',sans-serif;--fm:'IBM Plex Mono',monospace;--fi:italic;
+}
+[data-theme="ocean"]{
+  --bg0:#000e1c;--bg1:#041828;--bg2:#082338;--bg3:#0d304e;
+  --border:#113e64;--border2:#184e7e;
+  --text:#cce8ff;--text2:#4888b0;--text3:#1c4a68;
+  --accent:#38bdf8;--accent2:#7dd3fc;--abg:rgba(56,189,248,.09);
+  --green:#34d399;--gbg:rgba(52,211,153,.09);
+  --red:#f87171;--rbg:rgba(248,113,113,.09);
+  --yellow:#fbbf24;--ybg:rgba(251,191,36,.09);
+  --c1:#38bdf8;--c2:#f87171;--c3:#34d399;--c4:#fbbf24;--c5:#c084fc;
+  --fd:'DM Serif Display',serif;--fb:'Outfit',sans-serif;--fm:'DM Mono',monospace;--fi:italic;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg0);color:var(--text);font-family:var(--fb);font-size:14px;line-height:1.5}
+/* Disable text selection on UI chrome, allow in content areas */
+#topbar,#sb,#dp .dph,.dptabs,.ni,.ptab,.stat,.card .ct,
+.tb-brand,.tb-btn,.tb-user,#theme-sel,.sb-gl,.sb-lbl,
+.btn-login,.btn-a,.btn-s,.bdg,.chip,.wchip,
+.sl,.ct,.sv,.ss,.dpt,.wiv,.wid{user-select:none;-webkit-user-select:none}
+/* Theme-aware text selection in content */
+::selection{background:var(--accent);color:var(--bg0);opacity:.85}
+::-moz-selection{background:var(--accent);color:var(--bg0)}
+/* Inputs and data cells stay selectable */
+input,textarea,td,th,.dpb,.dpb *{user-select:text;-webkit-user-select:text}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+button{font-family:var(--fb);cursor:pointer}
+
+/* LOGIN */
+#login{display:flex;align-items:center;justify-content:center;height:100vh;background:var(--bg0);position:relative;overflow:hidden}
+#login::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 30%,var(--abg) 0%,transparent 65%)}
+.lcard{position:relative;z-index:1;width:420px;padding:48px 44px;background:var(--bg1);border:1px solid var(--border2);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.l-eye{font-family:var(--fm);font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.l-head{font-family:var(--fd);font-style:var(--fi);font-size:34px;line-height:1.1;margin-bottom:5px}
+.l-sub{font-size:13px;color:var(--text2);margin-bottom:34px}
+.field{margin-bottom:13px}
+.field label{display:block;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);margin-bottom:7px}
+.field input{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:7px;color:var(--text);font-family:var(--fm);font-size:13px;padding:9px 13px;outline:none;transition:border-color .15s,box-shadow .15s}
+.field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--abg)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn-login{width:100%;margin-top:8px;padding:12px;background:var(--accent);color:var(--bg0);border:none;border-radius:7px;font-size:14px;font-weight:700;letter-spacing:.04em;transition:opacity .15s,transform .1s;font-family:var(--fb)}
+.btn-login:hover{opacity:.88}.btn-login:active{transform:scale(.98)}.btn-login:disabled{opacity:.45;cursor:not-allowed}
+.l-err{color:var(--red);font-size:12px;margin-top:10px;min-height:18px;font-family:var(--fm);text-align:center}
+
+/* APP */
+#app{display:none;height:100vh;grid-template-rows:48px 1fr;grid-template-columns:230px 1fr}
+
+/* Topbar */
+#topbar{grid-column:1/-1;background:var(--bg1);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:10px;z-index:50;flex-shrink:0}
+.tb-brand{font-family:var(--fd);font-style:var(--fi);font-size:17px;color:var(--accent);white-space:nowrap}
+.tb-sep{width:1px;height:18px;background:var(--border2);flex-shrink:0}
+#period-tabs{display:flex;gap:3px;overflow-x:auto}#period-tabs::-webkit-scrollbar{display:none}
+.ptab{background:none;border:1px solid transparent;border-radius:5px;color:var(--text2);font-size:11px;font-weight:600;padding:4px 10px;letter-spacing:.03em;transition:all .12s;white-space:nowrap}
+.ptab:hover{color:var(--text);border-color:var(--border2)}.ptab.on{background:var(--abg);color:var(--accent);border-color:var(--accent)}
+.tb-r{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.tb-user{font-family:var(--fm);font-size:11px;color:var(--text2);white-space:nowrap}
+#theme-sel{background:var(--bg2);border:1px solid var(--border2);border-radius:5px;color:var(--text2);font-size:11px;padding:4px 7px;outline:none;cursor:pointer;font-family:var(--fb)}
+.tb-btn{background:var(--bg2);border:1px solid var(--border2);border-radius:5px;color:var(--text2);font-size:11px;font-weight:600;letter-spacing:.05em;padding:4px 10px;text-transform:uppercase;transition:all .12s}
+.tb-btn:hover{color:var(--text);border-color:var(--accent)}
+
+/* Sidebar */
+#sb{background:var(--bg1);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.sb-sec{padding:12px 8px 5px}
+.sb-lbl{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);padding:0 8px;margin-bottom:4px}
+.ni{display:flex;align-items:center;gap:8px;padding:6px 9px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);border:1px solid transparent;transition:all .1s;user-select:none}
+.ni:hover{background:var(--bg2);color:var(--text)}.ni.on{background:var(--abg);color:var(--accent);border-color:color-mix(in srgb,var(--accent) 22%,transparent)}
+.ni-ic{font-size:13px;width:15px;text-align:center;flex-shrink:0}
+.sb-foot{margin-top:auto;padding:12px 14px;border-top:1px solid var(--border)}
+.sb-gl{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin-bottom:3px}
+.sb-gv{font-family:var(--fd);font-style:var(--fi);font-size:30px;line-height:1}
+.sb-av{font-family:var(--fm);font-size:11px;color:var(--text2);margin-top:2px}
+
+/* Main */
+#main{overflow-y:auto;padding:18px 22px;background:var(--bg0);min-width:0}
+
+/* Components */
+.card{background:var(--bg1);border:1px solid var(--border);border-radius:9px;padding:16px 18px}
+.ct{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin-bottom:12px}
+.sr{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px}
+.stat{background:var(--bg1);border:1px solid var(--border);border-radius:9px;padding:13px 15px}
+.sl{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
+.sv{font-family:var(--fd);font-style:var(--fi);font-size:24px;line-height:1;margin-bottom:2px}
+.ss{font-size:11px;color:var(--text2);font-family:var(--fm);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hi{color:var(--green)}.mid{color:var(--yellow)}.lo{color:var(--red)}.dim{color:var(--text3)}
+#cab{display:none;margin-bottom:12px;padding:11px 15px;background:var(--bg1);border:1px solid var(--border);border-radius:9px}
+
+/* Grade table */
+.gt{width:100%;border-collapse:collapse}
+.gt th{font-size:9px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--text3);padding:6px 9px;border-bottom:1px solid var(--border);text-align:left}
+.gt td{padding:8px 9px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+.gt tr:last-child td{border-bottom:none}.gt tbody tr{cursor:pointer;transition:background .08s}
+.gt tbody tr:hover td{background:var(--bg2)}.gt tbody tr.on td{background:color-mix(in srgb,var(--abg) 70%,transparent)}
+.bw{display:inline-block;width:64px;height:3px;background:var(--bg3);border-radius:2px;vertical-align:middle}
+.bb{height:3px;border-radius:2px;transition:width .5s ease}
+.bdg{display:inline-block;font-family:var(--fm);font-size:10px;font-weight:500;padding:2px 6px;border-radius:4px}
+
+/* Detail panel */
+#dp{position:fixed;right:0;top:48px;width:600px;height:calc(100vh - 48px);background:var(--bg1);border-left:1px solid var(--border);transform:translateX(100%);transition:transform .24s cubic-bezier(.4,0,.2,1);overflow:hidden;display:flex;flex-direction:column;z-index:200}
+#dp.open{transform:none}
+#dp-x{position:absolute;top:11px;right:11px;background:var(--bg2);border:1px solid var(--border2);color:var(--text2);border-radius:50%;width:24px;height:24px;font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;z-index:1}
+#dp-x:hover{color:var(--text);border-color:var(--accent)}
+.dph{padding:18px 20px 0;flex-shrink:0}
+.dpn{font-family:var(--fd);font-style:var(--fi);font-size:18px;line-height:1.2;margin-bottom:5px;padding-right:28px;word-break:break-word}
+.dpm{font-size:11px;color:var(--text2);font-family:var(--fm);display:flex;flex-wrap:wrap;gap:9px;margin-bottom:12px}
+.dptabs{display:flex;border-bottom:1px solid var(--border);padding:0 18px;flex-shrink:0}
+.dpt{padding:8px 11px;font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .12s;margin-bottom:-1px;text-transform:uppercase}
+.dpt.on{color:var(--accent);border-bottom-color:var(--accent)}
+.dpb{padding:14px 20px;flex:1;overflow-y:auto}
+
+/* Tables */
+.at,.yt,.wit{width:100%;border-collapse:collapse;font-size:12px}
+.at th,.yt th,.wit th{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:5px 7px;border-bottom:1px solid var(--border);text-align:left}
+.yt th{text-align:center}.yt th:first-child{text-align:left}
+.wit th{background:var(--bg2);position:sticky;top:0;z-index:1;border-bottom:2px solid var(--border)}
+.at td,.yt td,.wit td{padding:6px 7px;border-bottom:1px solid var(--border);vertical-align:middle}
+.yt td{font-family:var(--fm);text-align:center;font-size:12px}.yt td:first-child{text-align:left;font-family:var(--fb);font-weight:700;font-size:13px}
+.at tr:last-child td,.yt tr:last-child td,.wit tr:last-child td{border-bottom:none}
+.wit tr:hover td{background:var(--bg2)}
+.wit tr.ed td{background:color-mix(in srgb,var(--ybg) 70%,transparent)}.wit tr.ed td:first-child{border-left:2px solid var(--yellow)}
+.wit tr.ad td{background:color-mix(in srgb,var(--gbg) 70%,transparent)}.wit tr.ad td:first-child{border-left:2px solid var(--green)}
+.dp2{color:var(--green);font-family:var(--fm);font-size:11px}
+.dn2{color:var(--red);font-family:var(--fm);font-size:11px}
+
+/* What-if */
+.wir{background:var(--abg);border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);border-radius:7px;padding:12px 15px;margin-bottom:12px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.wiv{font-family:var(--fd);font-style:var(--fi);font-size:26px;line-height:1}
+.wid{font-family:var(--fm);font-size:13px;font-weight:500}
+.wi-in{background:transparent;border:none;color:var(--text);font-family:var(--fm);font-size:12px;width:100%;outline:none;padding:2px 4px;border-radius:3px}
+.wi-in:focus{background:var(--bg3);box-shadow:0 0 0 2px var(--accent)}
+.wadd{display:flex;gap:7px;padding:7px 0;border-top:1px solid var(--border);align-items:center;flex-wrap:wrap}
+.wadd input,.wadd select{background:var(--bg2);border:1px solid var(--border2);border-radius:5px;color:var(--text);font-size:12px;padding:5px 8px;outline:none;font-family:var(--fm)}
+.wadd input:focus,.wadd select:focus{border-color:var(--accent)}
+.btn-s{background:var(--bg2);border:1px solid var(--border2);border-radius:5px;color:var(--text2);font-size:11px;font-weight:600;padding:5px 10px;text-transform:uppercase;letter-spacing:.05em;transition:all .12s}
+.btn-s:hover{color:var(--text);border-color:var(--accent)}
+.btn-a{background:var(--accent);color:var(--bg0);border:none;border-radius:5px;font-size:11px;font-weight:700;padding:5px 11px;letter-spacing:.04em;transition:opacity .12s;white-space:nowrap;font-family:var(--fb)}
+.btn-a:hover{opacity:.84}
+.chip{display:inline-block;background:var(--bg3);border:1px solid var(--border2);border-radius:4px;font-size:9px;font-weight:600;padding:2px 6px;color:var(--text2)}
+.wchip{background:var(--abg);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);border-radius:4px;font-family:var(--fm);font-size:11px;padding:2px 8px;color:var(--accent)}
+
+/* Grade calc */
+.gcr{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.gcf{background:var(--bg2);border:1px solid var(--border2);border-radius:7px;padding:12px 14px}
+.gcl{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.gci{width:100%;background:transparent;border:none;color:var(--text);font-family:var(--fm);font-size:16px;font-weight:500;outline:none}
+.gcres{background:var(--abg);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);border-radius:7px;padding:16px;margin-top:12px}
+
+/* Yearly overview */
+.og{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:9px}
+.oc{background:var(--bg1);border:1px solid var(--border);border-radius:9px;padding:13px 15px;cursor:pointer;transition:all .13s}
+.oc:hover{border-color:var(--border2);transform:translateY(-1px)}
+.ocn{font-size:12px;font-weight:700;margin-bottom:6px;line-height:1.3}
+.ops{display:flex;gap:5px;flex-wrap:wrap}
+.op{text-align:center;flex:1;min-width:44px}
+.opn{font-size:8px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:2px}
+.opv{font-size:13px;font-weight:700;font-family:var(--fm)}
+.opb{height:3px;border-radius:2px;margin-top:2px;transition:width .4s}
+
+/* Analytics */
+.cg2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px}
+.cc{background:var(--bg1);border:1px solid var(--border);border-radius:9px;padding:14px 18px}
+
+/* ToS Modal */
+#tos-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:900;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.tos-box{background:var(--bg1);border:1px solid var(--border2);border-radius:14px;width:520px;max-width:94vw;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 32px 80px rgba(0,0,0,.5)}
+.tos-head{padding:24px 28px 0;flex-shrink:0}
+.tos-title{font-family:var(--fd);font-style:var(--fi);font-size:22px;margin-bottom:6px}
+.tos-badge{display:inline-block;background:var(--ybg);color:var(--yellow);border:1px solid var(--yellow);border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.1em;padding:2px 8px;text-transform:uppercase;margin-bottom:14px}
+.tos-body{padding:0 28px;overflow-y:auto;flex:1;font-size:13px;color:var(--text2);line-height:1.7}
+.tos-body h3{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin:16px 0 6px}
+.tos-body p{margin-bottom:8px}
+.tos-body strong{color:var(--text);font-weight:600}
+.tos-foot{padding:20px 28px;flex-shrink:0;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:10px}
+.tos-check{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--text2);cursor:pointer;user-select:none}
+.tos-check input{margin-top:2px;accent-color:var(--accent);flex-shrink:0;width:15px;height:15px;cursor:pointer}
+.btn-tos{width:100%;padding:12px;background:var(--accent);color:var(--bg0);border:none;border-radius:7px;font-size:14px;font-weight:700;letter-spacing:.04em;font-family:var(--fb);cursor:pointer;transition:opacity .15s;opacity:.45;pointer-events:none}
+.btn-tos.enabled{opacity:1;pointer-events:auto}
+.btn-tos.enabled:hover{opacity:.88}
+
+/* Misc */
+.spin{display:inline-block;width:13px;height:13px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .65s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:45px;color:var(--text2);font-size:12px}
+.empty{color:var(--text3);font-size:12px;text-align:center;padding:32px}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.stitle{font-family:var(--fd);font-style:var(--fi);font-size:19px}
+.ir{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.ir:last-child{border-bottom:none}
+.ik{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text2)}
+.iv{font-family:var(--fm);font-size:12px}
+.pfg{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div class="lcard">
+    <div class="l-eye">Student Portal</div>
+    <div class="l-head">PlusPortals<br><em>Dashboard</em></div>
+    <div class="l-sub">Sign in with your school credentials</div>
+    <div class="field"><label>School</label><input id="l-sch" placeholder="e.g. bishopfeehan" autocomplete="off"></div>
+    <div class="field-row">
+      <div class="field"><label>Username</label><input id="l-usr" type="text" autocomplete="username" placeholder="user@school.com"></div>
+      <div class="field"><label>Password</label><input id="l-pw" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+    </div>
+    <div style="margin-bottom:12px;margin-top:4px">
+      <label style="display:flex;align-items:flex-start;gap:9px;cursor:pointer;user-select:none">
+        <input type="checkbox" id="tos-cb-login" onchange="tosLoginCheck()" autocomplete="off"
+          style="margin-top:2px;accent-color:var(--accent);width:14px;height:14px;flex-shrink:0;cursor:pointer">
+
+        <span style="font-size:12px;color:var(--text2);line-height:1.5">
+          I agree to the
+          <span onclick="event.preventDefault();event.stopPropagation();$('tos-overlay').style.display='flex'"
+            style="color:var(--accent);text-decoration:underline;cursor:pointer">Terms of Use</span>
+          — I understand this is an unofficial tool not affiliated with PlusPortals or my school
+        </span>
+      </label>
+    </div>
+    <button class="btn-login" id="l-btn" onclick="doLogin()" disabled
+      style="opacity:.45;cursor:not-allowed">Sign In →</button>
+    <div class="l-err" id="l-err"></div>
+  </div>
+</div>
+
+<div id="app">
+  <div id="topbar">
+    <div class="tb-brand">Plus/ <span style="font-family:var(--fm);font-size:9px;color:var(--text3);font-style:normal;letter-spacing:.05em">v1.0</span></div>
+    <div class="tb-sep"></div>
+    <div id="period-tabs"></div>
+    <div class="tb-r">
+      <span class="tb-user" id="tb-usr"></span>
+      <select id="theme-sel" onchange="setTheme(this.value)">
+        <option value="sand">Sand</option><option value="ember">Ember</option>
+        <option value="frost">Frost</option><option value="void">Void</option>
+        <option value="rose">Rose</option><option value="slate">Slate</option>
+        <option value="ocean">Ocean</option>
+      </select>
+      <button class="tb-btn" onclick="$('tos-overlay').style.display='flex';$('tos-cb').checked=false;tosCheck()" style="font-size:10px;opacity:.6" title="Terms of Use">ToS</button>
+      <button class="tb-btn" onclick="doLogout()">Logout</button>
+    </div>
+  </div>
+  <div id="sb">
+    <div class="sb-sec">
+      <div class="sb-lbl">Views</div>
+      <div class="ni on" id="ni-grades" onclick="nav('grades')"><span class="ni-ic">▦</span>Grades</div>
+      <div class="ni" id="ni-analytics" onclick="nav('analytics')"><span class="ni-ic">◈</span>Analytics</div>
+      <div class="ni" id="ni-yearly" onclick="nav('yearly')"><span class="ni-ic">◎</span>Yearly</div>
+      <div class="ni" id="ni-calc" onclick="nav('calc')"><span class="ni-ic">⊕</span>Grade Calc</div>
+      <div class="ni" id="ni-profile" onclick="nav('profile')"><span class="ni-ic">◷</span>Profile</div>
+    </div>
+    <div class="sb-sec" id="sb-courses" style="flex:1;overflow-y:auto;display:none">
+      <div class="sb-lbl">Courses</div>
+      <div id="sb-course-list"></div>
+    </div>
+    <div class="sb-foot">
+      <div class="sb-gl">Cumulative GPA</div>
+      <div class="sb-gv dim" id="sb-gpa">—</div>
+      <div class="sb-av" id="sb-avg">—</div>
+    </div>
+  </div>
+  <div id="main">
+    <div id="v-grades"></div>
+    <div id="v-analytics" style="display:none"></div>
+    <div id="v-yearly" style="display:none"></div>
+    <div id="v-calc" style="display:none"></div>
+    <div id="v-profile" style="display:none"></div>
+  </div>
+</div>
+
+<div id="dp">
+  <div id="dp-x" onclick="closeDP()">✕</div>
+  <div class="dph">
+    <div class="dpn" id="dpn"></div>
+    <div class="dpm" id="dpm"></div>
+  </div>
+  <div class="dptabs" id="dptabs">
+    <div class="dpt on" onclick="dpTab('asgn')">Assignments</div>
+    <div class="dpt" onclick="dpTab('yearly')">Yearly</div>
+    <div class="dpt" onclick="dpTab('calc')">Grade Calc</div>
+  </div>
+  <div class="dpb" id="dpb"></div>
+</div>
+
+<!-- Terms of Service Modal -->
+<div id="tos-overlay" style="display:none">
+  <div class="tos-box">
+    <div class="tos-head">
+      <div class="tos-badge">Unofficial Tool</div>
+      <div class="tos-title">Before you continue</div>
+    </div>
+    <div class="tos-body">
+      <h3>What this is</h3>
+      <p>This is an <strong>unofficial, student-made dashboard</strong> for viewing PlusPortals grade data. It is not affiliated with, endorsed by, or connected to PlusPortals, Rediker Software, Inc., or any school or educational institution.</p>
+
+      <h3>Authorized use only</h3>
+      <p>By using this tool you confirm that you are the authorized owner of the account you are logging into, and that you are a currently enrolled student with legitimate access to that PlusPortals account. <strong>Do not use this tool to access anyone else's account.</strong> You are solely responsible for ensuring your use complies with your school's policies and applicable laws.</p>
+
+      <h3>Your credentials</h3>
+      <p>Your username and password are transmitted <strong>directly to PlusPortals' servers</strong> to establish your login session — the same way a browser does. <strong>They are never saved to disk, stored in a database, or shared with any third party.</strong> No grade data, personal information, or credentials are collected or retained by this tool in any form.</p>
+
+      <h3>Data accuracy</h3>
+      <p>Grades, GPAs, and averages shown here are <strong>for informational purposes only</strong>. Always verify important information through the official PlusPortals website. Do not make academic or personal decisions based solely on data shown here.</p>
+
+      <h3>Use at your own risk</h3>
+      <p>This tool automates interaction with PlusPortals in a way that <strong>may not be explicitly permitted</strong> by their Terms of Service. By using this tool, you accept that:</p>
+      <p>• Your account could theoretically be flagged for unusual activity (very unlikely, but possible)</p>
+      <p>• You are responsible for ensuring your use of this tool is appropriate given your circumstances</p>
+      <p>• The developer accepts <strong>no liability</strong> for any consequences of using this tool, including but not limited to account suspension, data inaccuracies, or any decisions made based on information shown here</p>
+      <p>• This tool may stop working at any time if PlusPortals changes their systems</p>
+
+      <h3>No warranty</h3>
+      <p>This software is provided <strong>"as is"</strong>, without warranty of any kind. The developer makes no guarantees about availability, accuracy, or fitness for any purpose.</p>
+
+      <h3>Governing law</h3>
+      <p>These terms are governed by applicable law. By checking the box on the login page and using this tool, you confirm you are of sufficient age and legal capacity to agree to these terms, or that you have obtained appropriate parental or guardian consent.</p>
+    </div>
+    <div class="tos-foot">
+      <button class="btn-tos enabled" id="tos-btn" onclick="tosAccept()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const S={periods:[],pid:null,allGrades:{},yCache:{},aCache:{},selected:null,dpTab:'asgn',prefQ:[],prefRunning:false,view:'grades',wOverride:{}};
+// in-flight promise map — prevents duplicate requests for same key
+const _inflight={};
+const $=id=>document.getElementById(id);
+const gc=p=>p==null?'dim':p>=80?'hi':p>=70?'mid':'lo';
+const glc=l=>!l||l==='—'?'dim':'AB'.includes(l[0])?'hi':l[0]==='C'?'mid':'lo';
+// GPA is computed from the AVERAGED percentage, not per-course
+const gpaFromAvg=avg=>{if(avg==null)return null;return Math.min(4.0,Math.max(0,+(0.1*avg-5.5).toFixed(2)))};
+const gpa=gpaFromAvg; // alias for compatibility
+const bar=p=>{const c=gc(p),col=c==='hi'?'var(--green)':c==='mid'?'var(--yellow)':'var(--red)';return`<span class="bw"><span class="bb" style="width:${Math.min(p||0,100)}%;background:${col}"></span></span>`};
+const bdg=l=>{const c=glc(l);return`<span class="bdg" style="background:var(--${c==='hi'?'g':c==='mid'?'y':'r'}bg);color:var(--${c==='hi'?'green':c==='mid'?'yellow':'red'})">${l||'—'}</span>`};
+const fmt=(p,d=1)=>p==null?`<span class="dim">—</span>`:`<span class="${gc(p)}">${p.toFixed(d)}%</span>`;
+const dlt=d=>d==null?`<span class="dim">—</span>`:`<span class="${d>=0?'dp2':'dn2'}">${d>=0?'+':''}${d.toFixed(1)}</span>`;
+// ── Backend config ───────────────────────────────────────────────────────────
+// Only line you ever need to change — paste your Railway URL here after deploy
+const RAILWAY_URL='web-production-3c9c5.up.railway.app';
+// Auto-detects: empty string when local (relative URLs work), Railway URL in production
+const API_BASE=window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1'?'':RAILWAY_URL;
+const api=async(p,o={})=>{const r=await fetch(API_BASE+p,{headers:{'Content-Type':'application/json'},credentials:'include',...o});return r.json()};
+const lgr=p=>p>=93?'A':p>=90?'A-':p>=87?'B+':p>=83?'B':p>=80?'B-':p>=77?'C+':p>=73?'C':p>=70?'C-':p>=67?'D+':p>=63?'D':p>=60?'D-':'F';
+
+// ── Terms of Service ────────────────────────────────────────────────────────
+function tosLoginCheck(){
+  const checked=$('tos-cb-login')?.checked;
+  const btn=$('l-btn');
+  if(!btn)return;
+  if(checked){
+    btn.disabled=false;btn.style.opacity='1';btn.style.cursor='pointer';
+    localStorage.setItem('pp-tos','1');
+  } else {
+    // Unchecking always disables — must re-check to sign in
+    btn.disabled=true;btn.style.opacity='.45';btn.style.cursor='not-allowed';
+    localStorage.removeItem('pp-tos');
+  }
+}
+// ToS modal accept button (just closes it — agreement is via login checkbox)
+function tosAccept(){
+  $('tos-overlay').style.display='none';
+}
+function tosCheck(){
+  // legacy — kept for modal accept button compatibility
+  const cb=$('tos-cb'),btn=$('tos-btn');
+  if(btn) btn.classList.toggle('enabled', cb?.checked);
+}
+
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('pp-t',t);if(S.view==='analytics')renderAnalytics()}
+(()=>{const t=localStorage.getItem('pp-t')||'sand';document.documentElement.setAttribute('data-theme',t);setTimeout(()=>{if($('theme-sel'))$('theme-sel').value=t},0)})();
+
+async function doLogin(){
+  // Hard gate: checkbox must be checked — no bypass
+  const cbChecked = $('tos-cb-login')?.checked;
+  if(!cbChecked){
+    $('l-err').textContent = 'Please agree to the Terms of Use before signing in.';
+    return;
+  }
+  localStorage.setItem('pp-tos','1');
+  const btn=$('l-btn');btn.disabled=true;btn.textContent='Signing in…';$('l-err').textContent='';
+  try{const r=await api('/api/login',{method:'POST',body:JSON.stringify({school:$('l-sch').value.trim(),username:$('l-usr').value.trim(),password:$('l-pw').value})});
+    if(r.error){$('l-err').textContent=r.error;return}await boot();}
+  catch(e){$('l-err').textContent='Connection error'}
+  finally{btn.disabled=false;btn.textContent='Sign In →'}
+}
+$('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+$('l-usr').addEventListener('keydown',e=>{if(e.key==='Enter')$('l-pw').focus()});
+$('l-sch').addEventListener('keydown',e=>{if(e.key==='Enter')$('l-usr').focus()});
+async function doLogout(){await api('/api/logout',{method:'POST'});location.reload()}
+
+async function boot(){
+  const d=await api('/api/init');if(d.error){$('l-err').textContent=d.error;return}
+  S.periods=d.periods;$('tb-usr').textContent=d.username||'';$('theme-sel').value=localStorage.getItem('pp-t')||'sand';
+  const tabs=$('period-tabs');tabs.innerHTML='';
+  S.periods.forEach((p,i)=>{const t=document.createElement('button');t.className='ptab';t.textContent=p.name;
+    if(p.current)S.pid=p.id;t.onclick=()=>switchPeriod(p.id);tabs.appendChild(t)});
+  const yt=document.createElement('button');yt.className='ptab';yt.textContent='Yearly';yt.id='ptab-yr';
+  yt.onclick=()=>{
+    // Yearly tab: show analytics in yearly mode (not the overview grid)
+    S.view='yearly';
+    document.querySelectorAll('.ptab:not(#ptab-yr)').forEach(t=>t.classList.remove('on'));
+    yt.classList.add('on');
+    // Show analytics view (it will detect isYearly and aggregate)
+    ['grades','yearly','calc','profile'].forEach(v=>$(`v-${v}`).style.display='none');
+    $('v-analytics').style.display='block';
+    ['grades','analytics','yearly','calc','profile'].forEach(v=>$(`ni-${v}`)?.classList.remove('on'));
+    $('ni-analytics')?.classList.add('on');
+    renderAnalytics();
+    renderSBCourses();
+  };
+  tabs.appendChild(yt);
+  if(!S.pid&&S.periods.length)S.pid=S.periods[S.periods.length-1].id;
+  updPTabs();
+  $('login').style.display='none';$('app').style.display='grid';
+  // Fetch grades for all periods in parallel
+  const gd=await api('/api/grades_all');if(!gd.error)S.allGrades=gd.by_period||{};
+  renderGrades();
+  // Prefetch yearly + assignments for ALL courses across ALL periods
+  // so clicking anything is instant
+  const allSids=[...new Set(Object.values(S.allGrades).flatMap(cs=>cs.map(c=>c.section_id)))];
+  // Queue current period assignments first (highest priority — user is looking at this)
+  const curSids=(S.allGrades[S.pid]||[]).map(c=>c.section_id);
+  prefetch(curSids);
+  // Then queue other periods in background
+  S.periods.forEach(p=>{
+    if(p.id===S.pid)return;
+    (S.allGrades[p.id]||[]).forEach(c=>{
+      const ak=c.section_id+'_'+p.id;
+      if(!S.aCache[ak]&&!S.prefQ.includes(ak))S.prefQ.push(ak);
+    });
+  });
+  if(!S.prefRunning)runPrefetch();
+}
+
+function updPTabs(){
+  if(S.view==='yearly'){
+    document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('on'));
+    $('ptab-yr')?.classList.add('on');
+    return;
+  }
+  document.querySelectorAll('.ptab').forEach((t,i)=>{const p=S.periods[i];t.classList.toggle('on',!!p&&p.id===S.pid)});
+  $('ptab-yr')?.classList.remove('on');
+}
+
+async function switchPeriod(pid){
+  S.pid=pid;updPTabs();renderGrades();
+  if(S.selected&&(S.dpTab==='asgn'||S.dpTab==='whatif'||S.dpTab==='calc')){
+    // Update panel header grade for new period
+    const courses=S.allGrades[pid]||[];
+    const nc=courses.find(c=>c.section_id===S.selected.section_id);
+    if(nc){S.selected=nc;updateDPHeader(nc)}
+    await loadDP(S.dpTab);
+  }
+  updateSBStats();
+  if(S.view==='analytics')renderAnalytics();
+  else if(S.view==='yearly'){renderYearlyOv();renderSBCourses();}
+  prefetch((S.allGrades[pid]||[]).map(c=>c.section_id));
+}
+
+function updateDPHeader(c){
+  $('dpn').textContent=c.name;
+  $('dpm').innerHTML=`<span>👤 ${c.teacher}</span><span>📍 Rm ${c.room}</span><span>⏱ Pd ${c.period}</span>${c.grade_pct!=null?`<span class="${gc(c.grade_pct)}" style="font-weight:700">${c.grade_pct.toFixed(1)}%  ${c.letter}</span>`:''}`;
+}
+
+function prefetch(sids){
+  sids.forEach(s=>{
+    // queue yearly if not cached
+    if(!S.yCache[s]&&!S.prefQ.includes(s))S.prefQ.push(s);
+    // queue assignments for current period if not cached
+    const ak=s+'_'+S.pid;
+    if(S.pid&&!S.aCache[ak]&&!S.prefQ.includes(ak))S.prefQ.push(ak);
+  });
+  if(!S.prefRunning)runPrefetch();
+}
+// Single fetch entry point — deduplicates: if a request is already in flight
+// for a key, returns the same promise instead of firing a second request
+async function _fetch(key){
+  if(_inflight[key])return _inflight[key];
+  const isAsgn=String(key).includes('_');
+  const p=(async()=>{
+    try{
+      if(isAsgn){
+        if(S.aCache[key])return;
+        const [sid,pid]=String(key).split('_');
+        const d=await api(`/api/course/${sid}/assignments/${pid}`);
+        if(!d.error)S.aCache[key]=d.assignments||[];
+      } else {
+        if(S.yCache[key])return;
+        const d=await api(`/api/course/${key}/yearly`);
+        if(!d.error){
+          S.yCache[key]=d;
+          fillOvCard(key);
+          updateCABanner();
+          if(S.view==='analytics')renderAnalytics();
+        }
+      }
+    }catch{}
+    finally{delete _inflight[key];}
+  })();
+  _inflight[key]=p;
+  return p;
+}
+async function runPrefetch(){
+  if(S.prefRunning)return;
+  S.prefRunning=true;
+  
+  // Process in small batches so we don't clog the browser's network queue!
+  // This leaves connections open for user clicks like "Logout"
+  const CONCURRENCY_LIMIT = 2; 
+  
+  while(S.prefQ.length){
+    const batch = S.prefQ.splice(0, CONCURRENCY_LIMIT);
+    await Promise.all(batch.map(k=>_fetch(k)));
+  }
+  S.prefRunning=false;
+}
+function nav(view){
+  S.view=view;
+  ['grades','analytics','yearly','calc','profile'].forEach(v=>{$(`v-${v}`).style.display=v===view?'block':'none';$(`ni-${v}`)?.classList.toggle('on',v===view)});
+  updPTabs();
+  if(view==='analytics')renderAnalytics();
+  else if(view==='yearly'){renderYearlyOv();renderAnalytics();renderSBCourses();} // also refresh analytics for yearly mode
+  else if(view==='profile')renderProfile();
+  else if(view==='calc')renderCalcView();
+}
+
+function renderGrades(){
+  const cs=S.allGrades[S.pid]||[],p=S.periods.find(p=>p.id===S.pid)||{};
+  const v=cs.filter(c=>c.grade_pct!=null);
+  const avgP=v.length?v.reduce((s,c)=>s+c.grade_pct,0)/v.length:null;
+
+  const best=v.reduce((a,b)=>!a||b.grade_pct>a.grade_pct?b:a,null);
+  const worst=v.reduce((a,b)=>!a||b.grade_pct<a.grade_pct?b:a,null);
+  $('sb-gpa').textContent=avgP!=null?gpa(avgP).toFixed(2):'—';$('sb-gpa').className='sb-gv '+(avgP?gc(avgP):'dim');
+  $('sb-avg').textContent=avgP?avgP.toFixed(1)+'% avg':'—';
+  $('v-grades').innerHTML=`
+  <div class="sr">
+    <div class="stat"><div class="sl">Period Avg</div><div class="sv ${gc(avgP)}">${avgP?avgP.toFixed(1)+'%':'—'}</div><div class="ss">${p.name||''} — ${p.description||''}</div></div>
+    <div class="stat"><div class="sl">GPA<span style="font-size:8px;color:var(--text3);font-weight:400;text-transform:none"> (avg → convert)</span></div><div class="sv ${gc(avgP)}">${avgP!=null?gpa(avgP).toFixed(2):'—'}</div><div class="ss">${v.length} courses</div></div>
+    <div class="stat"><div class="sl">Highest</div><div class="sv hi" style="font-size:19px">${best?best.grade_pct.toFixed(1)+'%':'—'}</div><div class="ss" title="${best?.name||''}">${best?best.name.substring(0,18):'—'}</div></div>
+    <div class="stat"><div class="sl">Lowest</div><div class="sv lo" style="font-size:19px">${worst?worst.grade_pct.toFixed(1)+'%':'—'}</div><div class="ss" title="${worst?.name||''}">${worst?worst.name.substring(0,18):'—'}</div></div>
+  </div>
+  <div id="cab"></div>
+  <div class="card"><div class="ct">Courses — ${p.name||''}</div>
+    <table class="gt"><thead><tr><th>Course</th><th>Teacher</th><th>Pd</th><th>Room</th><th>Grade</th><th style="width:70px"></th><th>Letter</th></tr></thead>
+    <tbody id="gtb"></tbody></table></div>`;
+  const tb=$('gtb');
+  cs.forEach(c=>{const tr=document.createElement('tr');tr.dataset.sid=c.section_id;
+    tr.innerHTML=`<td style="font-weight:600">${c.name}</td>
+      <td style="color:var(--text2);font-size:12px">${c.teacher!=='—'?c.teacher:'<span class="dim">—</span>'}</td>
+      <td><span style="font-family:var(--fm);color:var(--text2);font-size:11px">${c.period||'—'}</span></td>
+      <td><span style="font-family:var(--fm);color:var(--text2);font-size:11px">${c.room||'—'}</span></td>
+      <td><span class="${gc(c.grade_pct)}" style="font-family:var(--fm);font-size:13px;font-weight:500">${c.grade_pct!=null?c.grade_pct.toFixed(1)+'%':'—'}</span></td>
+      <td>${c.grade_pct!=null?bar(c.grade_pct):''}</td><td>${bdg(c.letter)}</td>`;
+    tr.onclick=()=>openCourse(c,tr);tb.appendChild(tr);});
+  updateCABanner();
+}
+
+function updateCABanner(){
+  const ban=$('cab');if(!ban)return;
+  const cs=S.allGrades[S.pid]||[];let mT=0,cT=0,cN=0,mN=0;
+  cs.forEach(c=>{const yd=S.yCache[c.section_id];if(!yd)return;const row=yd.yearly?.find(y=>y.period_id===S.pid);if(!row)return;
+    if(c.grade_pct!=null){mT+=c.grade_pct;mN++}if(row.class_avg!=null){cT+=row.class_avg;cN++}});
+  if(!cN){ban.style.display='none';return}
+  const mA=mN?mT/mN:null,cA=cT/cN,diff=mA!=null?mA-cA:null,mG=mA!=null?gpa(mA):null,cG=gpa(cA);
+  ban.style.display='block';
+  ban.innerHTML=`<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center;font-size:12px">
+    <div><div class="sl">Class Avg (${cN} courses)</div><span style="font-family:var(--fm);font-size:14px;font-weight:600;color:var(--text2)">${cA.toFixed(1)}%</span><span style="color:var(--text3);font-size:11px;margin-left:6px">GPA ${cG?.toFixed(2)||'—'}</span></div>
+    ${mA!=null?`<div><div class="sl">Your Avg</div><span class="${gc(mA)}" style="font-family:var(--fm);font-size:14px;font-weight:600">${mA.toFixed(1)}%</span><span style="color:var(--text3);font-size:11px;margin-left:6px">GPA ${mG?.toFixed(2)||'—'}</span></div>
+    <div><div class="sl">You vs Class</div><span class="${diff>=0?'hi':'lo'}" style="font-family:var(--fm);font-size:14px;font-weight:600">${diff>=0?'+':''}${diff.toFixed(1)}%</span></div>`:''}
+  </div>`;
+}
+
+let _C={};
+function renderAnalytics(){
+  // If on yearly view, aggregate across all periods
+  const isYearly=S.view==='yearly';
+  let cs,p,v;
+  if(isYearly){
+    // Build combined course list with average across all periods
+    const allSids=[...new Set(Object.values(S.allGrades).flatMap(cs=>cs.map(c=>c.section_id)))];
+    cs=allSids.map(sid=>{
+      const allPcts=S.periods.map(p=>(S.allGrades[p.id]||[]).find(c=>c.section_id===sid)?.grade_pct).filter(x=>x!=null);
+      const base=(S.allGrades[S.pid]||[]).find(c=>c.section_id===sid)||(Object.values(S.allGrades).flatMap(x=>x).find(c=>c.section_id===sid));
+      if(!base||!allPcts.length)return null;
+      const avg=allPcts.reduce((a,b)=>a+b,0)/allPcts.length;
+      return{...base,grade_pct:+avg.toFixed(2),letter:lgr(avg)};
+    }).filter(Boolean);
+    p={name:'Yearly',description:'All periods'};
+    v=cs.filter(c=>c.grade_pct!=null);
+  } else {
+    cs=S.allGrades[S.pid]||[];p=S.periods.find(x=>x.id===S.pid)||{};
+    v=cs.filter(c=>c.grade_pct!=null);
+  }
+  Object.values(_C).forEach(c=>c.destroy());_C={};
+  if(!v.length){$('v-analytics').innerHTML='<div class="empty">No grade data.</div>';return}
+  const css=getComputedStyle(document.documentElement);
+  const C={c1:css.getPropertyValue('--c1').trim(),c2:css.getPropertyValue('--c2').trim(),c3:css.getPropertyValue('--c3').trim(),c4:css.getPropertyValue('--c4').trim(),tx:css.getPropertyValue('--text2').trim(),bd:css.getPropertyValue('--border').trim()};
+  const cd={plugins:{legend:{labels:{color:C.tx,font:{family:'DM Mono',size:10}}}},scales:{x:{ticks:{color:C.tx,font:{family:'DM Mono',size:9}},grid:{color:C.bd}},y:{ticks:{color:C.tx,font:{family:'DM Mono',size:9}},grid:{color:C.bd}}}};
+  $('v-analytics').innerHTML=`<div class="sh"><div class="stitle">Analytics${isYearly?' — Yearly Average':' — '+( p.name||'')} </div></div>
+  <div class="cg2"><div class="cc"><div class="ct">Grade Distribution</div><canvas id="ch-bar" height="200"></canvas></div>
+    <div class="cc"><div class="ct">You vs Class Average</div><canvas id="ch-vs" height="200"></canvas></div></div>
+  <div class="cg2"><div class="cc"><div class="ct">Grade Trend</div><canvas id="ch-tr" height="200"></canvas></div>
+    <div class="cc"><div class="ct">Cumulative GPA Trend</div><canvas id="ch-gpa" height="200"></canvas></div></div>`;
+  const ns=v.map(c=>c.name.replace(/\s*\(.+\)/,'').substring(0,13));
+  _C.bar=new Chart($('ch-bar'),{type:'bar',data:{labels:ns,datasets:[{label:'Grade %',data:v.map(c=>c.grade_pct),backgroundColor:v.map(c=>gc(c.grade_pct)==='hi'?C.c3:gc(c.grade_pct)==='mid'?C.c1:C.c2),borderRadius:4,borderSkipped:false}]},options:{...cd,plugins:{...cd.plugins,legend:{display:false}},scales:{...cd.scales,y:{...cd.scales.y,min:60,max:100}}}});
+  // Only show you-vs-class if we actually have class avg data for this view
+  const vsD=v.map(c=>{
+    const yd=S.yCache[c.section_id];
+    let cls=null;
+    if(isYearly){
+      // Use average class avg across all periods that have it
+      const clsVals=(yd?.yearly||[]).map(y=>y.class_avg).filter(x=>x!=null);
+      cls=clsVals.length?clsVals.reduce((a,b)=>a+b,0)/clsVals.length:null;
+    } else {
+      const row=yd?.yearly?.find(y=>y.period_id===S.pid);
+      cls=row?.class_avg??null;
+    }
+    return{name:c.name.replace(/\s*\(.+\)/,'').substring(0,13),you:c.grade_pct,cls};
+  }).filter(d=>d.cls!=null);
+  if(vsD.length){
+    _C.vs=new Chart($('ch-vs'),{type:'bar',data:{labels:vsD.map(d=>d.name),
+      datasets:[{label:'You',data:vsD.map(d=>d.you),backgroundColor:C.c3+'cc',borderRadius:4},
+                {label:'Class',data:vsD.map(d=>d.cls),backgroundColor:C.c2+'88',borderRadius:4}]},
+      options:{...cd,scales:{...cd.scales,y:{...cd.scales.y,min:60,max:100}}}});
+  } else {
+    $('ch-vs').parentElement.innerHTML='<div class="ct">You vs Class</div><div class="empty" style="padding:14px;font-size:11px">'+(isYearly?'No class averages available':'Class averages not available for this period')+'</div>';
+  }
+  const pns=S.periods.map(p=>p.name);
+  const tds=v.slice(0,6).map((c,i)=>{const cols=[C.c1,C.c2,C.c3,C.c4,'#c084fc','#fb923c'];
+    return{label:c.name.substring(0,14),data:pns.map(pn=>{const pid=S.periods.find(p=>p.name===pn)?.id;return pid?(S.allGrades[pid]||[]).find(x=>x.section_id===c.section_id)?.grade_pct??null:null}),borderColor:cols[i],backgroundColor:'transparent',borderWidth:2,pointRadius:4,tension:.35,spanGaps:true}});
+  _C.tr=new Chart($('ch-tr'),{type:'line',data:{labels:pns,datasets:tds},options:{...cd,scales:{...cd.scales,y:{...cd.scales.y,min:60,max:100}}}});
+  // Cumulative GPA trend: compute avg % per period, then GPA from that avg
+  const gpaTrend=S.periods.map(p=>{
+    const pcs=S.allGrades[p.id]||[];const pv=pcs.filter(c=>c.grade_pct!=null);
+    if(!pv.length)return null;
+    const avgPct=pv.reduce((s,c)=>s+c.grade_pct,0)/pv.length;
+    return gpa(avgPct);});
+  _C.gpa=new Chart($('ch-gpa'),{type:'line',data:{labels:S.periods.map(p=>p.name),
+    datasets:[{label:'Cumulative GPA',data:gpaTrend,borderColor:C.c4,backgroundColor:C.c4+'22',
+      borderWidth:2,pointRadius:5,fill:true,tension:.35,spanGaps:true}]},
+    options:{...cd,scales:{...cd.scales,y:{...cd.scales.y,min:0,max:4.2}}}});
+}
+
+function renderSBCourses(){
+  const sb=$('sb-courses'),list=$('sb-course-list');
+  if(!sb||!list)return;
+  if(S.view==='yearly'){
+    sb.style.display='block';
+    const cs=S.allGrades[S.pid]||[];
+    list.innerHTML=cs.map(c=>{
+      const yd=S.yCache[c.section_id];
+      const allPcts=S.periods.map(p=>(S.allGrades[p.id]||[]).find(x=>x.section_id===c.section_id)?.grade_pct).filter(x=>x!=null);
+      const avg=allPcts.length?allPcts.reduce((a,b)=>a+b,0)/allPcts.length:null;
+      return`<div class="ni" style="font-size:11px" onclick="openCourseYearly(${JSON.stringify(c).replace(/"/g,'&quot;')})">
+        <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name.replace(/\s*\(.+\)/,'')}</span>
+        ${avg!=null?`<span class="${gc(avg)}" style="font-family:var(--fm);font-size:10px">${avg.toFixed(0)}%</span>`:''}
+      </div>`;
+    }).join('');
+  } else {
+    sb.style.display='none';
+  }
+}
+
+function renderYearlyOv(){
+  const cs=S.allGrades[S.pid]||[];
+  $('v-yearly').innerHTML=`<div class="sh"><div class="stitle">Yearly Overview</div><span style="font-size:11px;color:var(--text2)">Click to open</span></div><div class="og" id="og"></div>`;
+  const g=$('og');
+  cs.forEach(c=>{const card=document.createElement('div');card.className='oc';
+    card.innerHTML=`<div class="ocn">${c.name}</div><div style="font-size:10px;color:var(--text2);margin-bottom:8px">${c.teacher}</div>
+      <div class="ops" id="ovp-${c.section_id}"><div class="spin" style="margin:4px auto"></div></div>`;
+    card.onclick=()=>{openCourseYearly(c)};g.appendChild(card);
+    if(S.yCache[c.section_id])fillOvCard(c.section_id);});
+}
+
+function fillOvCard(sid){
+  const el=$(`ovp-${sid}`);if(!el)return;
+  const d=S.yCache[sid];if(!d||d.error){el.innerHTML='<span class="dim" style="font-size:11px">—</span>';return}
+  renderSBCourses();
+  el.innerHTML=d.yearly.map(y=>{if(!y.student_official&&!y.student_calc&&!y.n_assignments)return'';
+    const p=y.student_official??y.student_calc,w=p?Math.max(0,Math.min(100,(p-60)/40*100)):0;
+    const col=gc(p)==='hi'?'var(--green)':gc(p)==='mid'?'var(--yellow)':'var(--red)';
+    return`<div class="op"><div class="opn">${y.period_name}</div><div class="opv ${gc(p)}">${p!=null?p.toFixed(0)+'%':'—'}</div>
+      <div class="opb" style="width:${w}%;background:${col}"></div></div>`;}).join('');
+}
+
+function renderCalcView(){
+  const cs=S.allGrades[S.pid]||[];
+  $('v-calc').innerHTML=`<div class="sh"><div class="stitle">Grade Calculator</div></div>
+  <div style="max-width:540px">
+    <div class="card" style="margin-bottom:12px">
+      <div class="ct">Target Grade Calculator</div>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:16px">What score do you need on your next assignment to hit a target grade?</p>
+      <div class="field" style="margin-bottom:12px"><label>Course</label>
+        <select id="gc-c" style="width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:var(--fm);font-size:13px;padding:9px 12px;outline:none">
+          <option value="">— Select a course —</option>
+          ${cs.map(c=>`<option value="${c.section_id}">${c.name}</option>`).join('')}
+        </select></div>
+      <div class="gcr">
+        <div class="gcf"><div class="gcl">Target Grade (%)</div><input class="gci" id="gc-tgt" type="number" value="90" min="0" max="100" step="0.1"></div>
+        <div class="gcf"><div class="gcl">Assignment Points</div><input class="gci" id="gc-pts" type="number" value="100" min="1" step="1"></div>
+      </div>
+      <div class="field" style="margin-bottom:12px"><label>Category</label>
+        <select id="gc-cat" style="width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:var(--fm);font-size:13px;padding:9px 12px;outline:none">
+          <option value="">Unweighted</option></select></div>
+      <button class="btn-a" style="width:100%;padding:10px" onclick="runCalc()">Calculate →</button>
+      <div id="gc-res"></div>
+    </div>
+    <div class="card"><div class="ct">GPA Lookup</div>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:14px">Enter any percentage to see GPA equivalent.</p>
+      <div style="display:flex;gap:10px;align-items:center">
+        <input id="gpa-in" type="number" min="0" max="100" step="0.1" placeholder="e.g. 94.5"
+          style="background:var(--bg2);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:var(--fm);font-size:16px;padding:9px 12px;outline:none;width:140px">
+        <div id="gpa-out" style="font-family:var(--fd);font-style:var(--fi);font-size:28px;color:var(--accent)">—</div>
+        <div id="gpa-lt" style="font-family:var(--fm);font-size:14px;color:var(--text2)"></div>
+      </div>
+    </div>
+  </div>`;
+  $('gpa-in').oninput=e=>{const v=parseFloat(e.target.value);if(isNaN(v)){$('gpa-out').textContent='—';$('gpa-lt').textContent='';return}$('gpa-out').textContent=gpaFromAvg(v)?.toFixed(2)||'—';$('gpa-lt').textContent=lgr(v)};
+  $('gc-c').onchange=e=>{const sid=parseInt(e.target.value);if(!sid)return;const yd=S.yCache[sid];const cat=$('gc-cat');
+    if(yd?.weights)cat.innerHTML=Object.entries(yd.weights).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<option value="${k}">${k} (${v}%)</option>`).join('');
+    else cat.innerHTML='<option value="">Unweighted</option>';if(!yd)prefetch([sid]);};
+}
+
+async function runCalc(){
+  const sid=parseInt($('gc-c').value),tgt=parseFloat($('gc-tgt').value),pts=parseFloat($('gc-pts').value),cat=$('gc-cat').value;
+  const res=$('gc-res');if(!sid){res.innerHTML='<div style="color:var(--red);font-size:12px;margin-top:8px">Select a course.</div>';return}
+  res.innerHTML='<div class="lc"><div class="spin"></div></div>';
+  const yd=S.yCache[sid];
+  const asgns=yd?.yearly?.find(y=>y.period_id===S.pid)?.assignments||[];
+  // Use weight override if set, else auto-detected weights (already in pct form)
+  const weights=(S.wOverride[sid])||yd?.weights||null;
+  const r=await api('/api/grade_calc',{method:'POST',body:JSON.stringify({assignments:asgns,weights,target_pct:tgt,future_possible:pts,category:cat})});
+  if(r.error){res.innerHTML=`<div style="color:var(--red);font-size:12px;margin-top:8px">${r.error}</div>`;return}
+  let statusMsg, statusCol;
+  if(r.free){statusMsg='✓ Already above target — any score will do';statusCol='var(--green)';}
+  else if(r.impossible){statusMsg=`✗ Not achievable — would need ${r.needed_score.toFixed(1)} pts on a ${pts}-pt assignment (${r.needed_pct?.toFixed(1)}%)`;statusCol='var(--red)';}
+  else{statusMsg=`✓ Achievable — score ${r.needed_score.toFixed(1)} / ${pts} (${r.needed_pct?.toFixed(1)}%)`;statusCol='var(--green)';}
+  res.innerHTML=`<div class="gcres"><div style="display:flex;gap:16px;flex-wrap:wrap">
+    <div><div style="font-size:9px;color:var(--text3);margin-bottom:2px">Current</div><div class="${gc(r.current_avg)}" style="font-family:var(--fd);font-style:var(--fi);font-size:22px">${r.current_avg!=null?r.current_avg.toFixed(2)+'%':'—'}</div></div>
+    <div><div style="font-size:9px;color:var(--text3);margin-bottom:2px">Target</div><div style="font-family:var(--fd);font-style:var(--fi);font-size:22px;color:var(--accent)">${tgt}%</div></div>
+    ${!r.free?`<div><div style="font-size:9px;color:var(--text3);margin-bottom:2px">Need</div><div style="font-family:var(--fd);font-style:var(--fi);font-size:22px;color:${statusCol}">${r.needed_score.toFixed(1)} / ${pts}</div></div>`:''}
+    ${!r.free?`<div><div style="font-size:9px;color:var(--text3);margin-bottom:2px">That's</div><div style="font-family:var(--fm);font-size:15px;font-weight:600;color:${statusCol}">${r.needed_pct?.toFixed(1)}%</div></div>`:''}
+  </div><div style="margin-top:10px;font-size:12px;font-weight:600;color:${statusCol}">${statusMsg}</div></div>`;
+}
+
+async function renderProfile(){
+  const st=await api('/api/status');const cs=S.allGrades[S.pid]||[];
+  $('v-profile').innerHTML=`<div class="stitle" style="margin-bottom:14px">Profile</div><div class="pfg">
+    <div class="card"><div class="ct">Account</div>
+      <div class="ir"><span class="ik">Username</span><span class="iv">${st.username||'—'}</span></div>
+      <div class="ir"><span class="ik">Student ID</span><span class="iv">${st.student_id||'—'}</span></div>
+      <div class="ir"><span class="ik">Email</span><span class="iv">${st.school_email||'—'}</span></div>
+      <div class="ir"><span class="ik">Portal</span><span class="iv">plusportals.com/${st.school_slug||''}</span></div></div>
+    <div class="card"><div class="ct">Courses</div>
+      ${cs.map(c=>`<div class="ir" style="cursor:pointer" onclick="openCourse(${JSON.stringify(c).replace(/"/g,'&quot;')},null);nav('grades')"><span style="font-size:13px;font-weight:600">${c.name}</span><span class="iv" style="color:var(--text2)">${c.period} · ${c.teacher}</span></div>`).join('')}
+    </div></div>`;
+}
+
+async function openCourseYearly(c){
+  S.selected=c;updateDPHeader(c);
+  $('dptabs').querySelectorAll('.dpt').forEach((t,i)=>t.classList.toggle('on',i===1)); // yearly tab
+  S.dpTab='yearly';$('dp').classList.add('open');
+  await loadDP('yearly');
+  if(!S.yCache[c.section_id])prefetch([c.section_id]);
+}
+
+async function openCourse(c,tr){
+  S.selected=c;updateDPHeader(c);
+  $('dptabs').querySelectorAll('.dpt').forEach((t,i)=>t.classList.toggle('on',i===0));
+  S.dpTab='asgn';$('dp').classList.add('open');
+  document.querySelectorAll('#gtb tr').forEach(r=>r.classList.remove('on'));
+  if(tr)tr.classList.add('on');
+  await loadDP('asgn'); // hits cache instantly if prefetch already ran
+  if(!S.yCache[c.section_id])prefetch([c.section_id]);
+}
+
+function updateDPHeader(c){
+  $('dpn').textContent=c.name;
+  $('dpm').innerHTML=`<span>👤 ${c.teacher}</span><span>📍 Rm ${c.room}</span><span>⏱ Pd ${c.period}</span>${c.grade_pct!=null?`<span class="${gc(c.grade_pct)}" style="font-weight:700">${c.grade_pct.toFixed(1)}%  ${c.letter}</span>`:''}`;
+}
+
+function closeDP(){$('dp').classList.remove('open');document.querySelectorAll('#gtb tr').forEach(r=>r.classList.remove('on'));/* keep S.selected so reopening same course hits cache instantly */}
+
+async function dpTab(t){S.dpTab=t;const ts=['asgn','yearly','calc'];
+  $('dptabs').querySelectorAll('.dpt').forEach((el,i)=>el.classList.toggle('on',ts[i]===t));await loadDP(t)}
+
+async function loadDP(t){
+  const body=$('dpb');const c=S.selected;if(!c)return;
+  const sid=c.section_id;
+  const ak=sid+'_'+S.pid;
+
+  if(t==='asgn'){
+    if(S.aCache[ak]){renderAsgn(S.aCache[ak],body);return;}
+    body.innerHTML='<div class="lc"><div class="spin"></div>Loading…</div>';
+    await _fetch(ak); // deduplicates — joins in-flight prefetch if already running
+    if(S.aCache[ak])renderAsgn(S.aCache[ak],body);
+    else body.innerHTML='<div class="empty">Failed to load assignments.</div>';
+  }
+  else if(t==='yearly'){
+    if(S.yCache[sid]){renderYearly(S.yCache[sid],body);return;}
+    body.innerHTML='<div class="lc"><div class="spin"></div>Loading…</div>';
+    await _fetch(String(sid));
+    if(S.yCache[sid])renderYearly(S.yCache[sid],body);
+    else body.innerHTML='<div class="empty">Failed to load yearly data.</div>';
+  }
+  else if(t==='calc'){
+    let as=S.aCache[ak];
+    if(!as){
+      body.innerHTML='<div class="lc"><div class="spin"></div>Loading…</div>';
+      await _fetch(ak);
+      as=S.aCache[ak]||[];
+    }
+    const yd=S.yCache[sid];
+    renderCP(as,yd,c,body);
+  }
+}
+
+function renderAsgn(as, con) {
+  if (!as.length) { con.innerHTML = '<div class="empty">No assignments this period.</div>'; return; }
+
+  const sid = S.selected?.section_id;
+  const yd  = S.yCache[sid];
+
+  // sid in S.wOverride means user has a preference:
+  //   S.wOverride[sid] = {cat:pct,...} → use those weights
+  //   S.wOverride[sid] = null          → explicitly unweighted
+  //   key absent                       → use auto-detected weights
+  const hasOverride = sid && sid in S.wOverride;
+  const rawWeights = hasOverride
+    ? S.wOverride[sid]                  // null = unweighted, or {cat:pct}
+    : (yd?.weights || null);
+  const wObj = rawWeights;
+  // Convert percentage weights (e.g. {Homework:15}) to fractions (e.g. {Homework:0.15})
+  const W = wObj ? Object.fromEntries(Object.entries(wObj).map(([k,v]) => [k, v > 1 ? v/100 : v])) : null;
+
+  // ALWAYS use the server's official grade as baseline — never recompute it
+  // This avoids the "100%" bug where ccalc returns different value than server
+  const knownAvg = S.selected?.grade_pct ?? null;
+
+  // Working copy — only graded assignments (pct != null)
+  const work = as.filter(a => a.pct != null).map((a, i) => ({
+    ...a, _i: i, _os: a.score, _op: a.pct, _ed: false
+  }));
+  const added = [];
+
+  // Total-points weighted average matching server calculation exactly
+  function ccalc(rows) {
+    const g = rows.filter(a => a.pct != null && a.score != null && a.possible != null
+                                && String(a.score).trim() !== ''
+                                && !String(a.score).trim().startsWith('('));
+    if (!g.length) return null;
+    if (!W) {
+      // Simple total-points: sum(earned) / sum(possible)
+      let e = 0, p = 0;
+      g.forEach(a => {
+        try { e += parseFloat(a.score); p += parseFloat(a.possible); } catch {}
+      });
+      return p > 0 ? e / p * 100 : null;
+    }
+    // Weighted: total-points per category (or pooled group), then apply weights
+    let ws = 0, wt = 0;
+    for (const [key, wv] of Object.entries(W)) {
+      if (!wv) continue;
+      let e = 0, p = 0;
+      // key may be 'CategoryA|CategoryB' for a merged group — pool all member cats
+      const members = key.includes('|') ? key.split('|') : [key];
+      g.filter(a => members.includes(a.category)).forEach(a => {
+        try { e += parseFloat(a.score); p += parseFloat(a.possible); } catch {}
+      });
+      if (p > 0) { ws += (e / p * 100) * wv; wt += wv; }
+    }
+    return wt > 0 ? ws / wt : null;
+  }
+
+  // Baseline is always the official server grade
+  const baseline = knownAvg;
+
+  function render() {
+    const all = [...work, ...added];
+    const cur = ccalc(all);
+    const delta = (cur != null && baseline != null) ? cur - baseline : null;
+    const cats = [...new Set(as.map(a => a.category).filter(Boolean))];
+
+    // Category summary
+    const catMap = {};
+    work.forEach(a => {
+      if (a.pct == null) return;
+      const cat = a.category || 'Other';
+      catMap[cat] = catMap[cat] || { e: 0, p: 0, n: 0 };
+      try { catMap[cat].e += parseFloat(a.score); catMap[cat].p += parseFloat(a.possible); catMap[cat].n++; } catch {}
+    });
+    const cH = Object.entries(catMap).map(([cat, d]) => {
+      const p = d.p > 0 ? d.e / d.p * 100 : null;
+      // find weight — may be stored under 'Cat' or 'Cat1|Cat2' group key
+      const wEntry = wObj ? Object.entries(wObj).find(([k])=>k===cat||k.split('|').includes(cat)) : null;
+      const w = wEntry ? wEntry[1] : null;
+      const wLabel = wEntry && wEntry[0].includes('|') ? `grouped ${w}%` : w ? `${w}%` : null;
+      return `<span style="margin-right:12px"><span style="color:var(--text2);font-size:11px">${cat}${wLabel?` <span style="color:var(--accent);font-size:10px">${wLabel}</span>`:''}</span>
+        <span class="${gc(p)}" style="font-family:var(--fm);font-size:12px;font-weight:500;margin-left:4px">${p ? p.toFixed(1) + '%' : '—'}</span>
+        <span style="color:var(--text3);font-size:10px;margin-left:3px">${d.n}×</span></span>`;
+    }).join('');
+
+    // Get period class avg from yearly cache
+    const periodYd = yd?.yearly?.find(y => y.period_id === S.pid);
+    const qClassAvg = periodYd?.class_avg ?? null;
+    const diffFromClass = (cur != null && qClassAvg != null) ? cur - qClassAvg : null;
+
+    // Result bar
+    const resBar = `<div class="wir" id="wi-res">
+      <div><div class="ct" style="margin-bottom:2px">Current</div>
+        <div class="${gc(cur)} wiv">${cur != null ? cur.toFixed(2) + '%' : '—'}</div></div>
+      ${delta != null ? `<div><div class="ct" style="margin-bottom:2px">Change</div>
+        <div class="${delta >= 0 ? 'dp2' : 'dn2'} wid">${delta >= 0 ? '+' : ''}${delta.toFixed(2)}%</div></div>` : ''}
+      ${qClassAvg != null ? `<div><div class="ct" style="margin-bottom:2px">Class Avg</div>
+        <div style="font-family:var(--fm);font-size:14px;font-weight:600;color:var(--text2)">${qClassAvg.toFixed(1)}%</div>
+        ${diffFromClass != null ? `<div class="${diffFromClass>=0?'dp2':'dn2'}" style="font-size:10px">${diffFromClass>=0?'+':''}${diffFromClass.toFixed(1)}% vs class</div>`:''}</div>` : ''}
+      <div style="margin-left:auto;text-align:right"><div class="ct" style="margin-bottom:2px">Baseline</div>
+        <div class="${gc(baseline)}" style="font-family:var(--fm);font-size:12px">${baseline != null ? baseline.toFixed(2) + '%' : '—'}</div></div>
+    </div>`;
+
+    // Unified table — assignments ARE the what-if rows
+    let tRows = '';
+    work.forEach((a, i) => {
+      const pct = a.score && a.possible ? parseFloat(a.score) / parseFloat(a.possible) * 100 : a.pct;
+      const d = (pct != null && a.class_avg != null) ? (pct - a.class_avg) : null;
+      tRows += `<tr id="wr${i}" class="${a._ed ? 'ed' : ''}">
+        <td style="font-size:11px;font-weight:500;word-break:break-word;max-width:120px">${a.name}</td>
+        <td><span class="chip" style="font-size:8px">${(a.category || '?').substring(0, 8)}</span></td>
+        <td><input class="wi-in ws" data-i="${i}" value="${a.score || ''}" type="number"
+          step="0.5" min="0" max="${a.possible || 999}" style="width:52px"></td>
+        <td style="font-family:var(--fm);color:var(--text2);font-size:11px">${a.possible || '?'}</td>
+        <td id="wp${i}" class="${gc(pct)}" style="font-family:var(--fm);font-size:11px;font-weight:500">
+          ${pct != null ? pct.toFixed(1) + '%' : '—'}</td>
+        <td>${a.class_avg != null ? `<span style="font-family:var(--fm);color:var(--text2);font-size:11px">${a.class_avg.toFixed(1)}%</span>` : '<span class="dim">—</span>'}</td>
+        <td>${dlt(d)}</td>
+        <td style="font-size:9px;font-weight:700;color:var(--yellow);white-space:nowrap">${a._ed ? 'EDITED' : ''}</td>
+      </tr>`;
+    });
+    added.forEach((a, i) => {
+      const pct = parseFloat(a.score) / parseFloat(a.possible) * 100;
+      tRows += `<tr class="ad">
+        <td style="font-size:11px;font-weight:500">${a.name}</td>
+        <td><span class="chip" style="font-size:8px">${(a.category || '').substring(0, 8)}</span></td>
+        <td style="font-family:var(--fm);font-size:11px">${a.score}</td>
+        <td style="font-family:var(--fm);font-size:11px;color:var(--text2)">${a.possible}</td>
+        <td class="${gc(pct)}" style="font-family:var(--fm);font-size:11px">${pct.toFixed(1)}%</td>
+        <td><span class="dim">—</span></td><td><span class="dim">—</span></td>
+        <td><button onclick="rmA(${i})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px">✕</button></td>
+      </tr>`;
+    });
+
+    const addRow = `<div class="wadd">
+      <select id="wi-cat" style="width:100px">${cats.map(c => `<option value="${c}">${c}</option>`).join('')}</select>
+      <input id="wi-nm" placeholder="Name" style="flex:1;min-width:70px">
+      <input id="wi-sc" type="number" placeholder="Score" step="0.5" style="width:60px">
+      <input id="wi-ps" type="number" placeholder="Of" step="1" style="width:50px">
+      <button class="btn-a" onclick="wiA()">+ Add</button>
+      <button class="btn-s" onclick="wiR()">Reset</button>
+    </div>`;
+
+    con.innerHTML = `
+      <div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)">
+        <div class="ct">Categories${wObj ? '' : ''}</div><div>${cH}</div>
+      </div>
+      ${resBar}
+      <div style="overflow-x:auto">
+        <table class="wit">
+          <thead><tr>
+            <th>Assignment</th><th>Cat</th><th>Score</th><th>Of</th>
+            <th>You</th><th>Class</th><th>Δ vs Class</th><th></th>
+          </tr></thead>
+          <tbody>${tRows}</tbody>
+        </table>
+      </div>
+      ${addRow}`;
+
+    // Wire live inputs
+    con.querySelectorAll('.ws').forEach(inp => {
+      inp.addEventListener('input', e => {
+        const i = parseInt(e.target.dataset.i);
+        const s = parseFloat(e.target.value);
+        const p = parseFloat(String(work[i].possible || '0'));
+        if (!isNaN(s) && p > 0) {
+          work[i].score = String(s); work[i].pct = s / p * 100; work[i]._ed = true;
+          const pe = document.getElementById(`wp${i}`);
+          if (pe) { const pct = s / p * 100; pe.textContent = pct.toFixed(1) + '%'; pe.className = gc(pct); }
+          const re = document.getElementById(`wr${i}`);
+          if (re) { re.classList.add('ed'); const et = re.querySelector('td:last-child'); if (et && !et.textContent.trim()) et.textContent = 'EDITED'; }
+        }
+        // Update result bar inline
+        const all2 = [...work, ...added], cur2 = ccalc(all2);
+        const d2 = cur2 != null && baseline != null ? cur2 - baseline : null;
+        const wr = con.querySelector('#wi-res');
+        const d2fc = (cur2 != null && qClassAvg != null) ? cur2 - qClassAvg : null;
+        if (wr) wr.innerHTML = `
+          <div><div class="ct" style="margin-bottom:2px">Current</div>
+            <div class="${gc(cur2)} wiv">${cur2 != null ? cur2.toFixed(2) + '%' : '—'}</div></div>
+          ${d2 != null ? `<div><div class="ct" style="margin-bottom:2px">Change</div>
+            <div class="${d2 >= 0 ? 'dp2' : 'dn2'} wid">${d2 >= 0 ? '+' : ''}${d2.toFixed(2)}%</div></div>` : ''}
+          ${qClassAvg != null ? `<div><div class="ct" style="margin-bottom:2px">Class Avg</div>
+            <div style="font-family:var(--fm);font-size:14px;font-weight:600;color:var(--text2)">${qClassAvg.toFixed(1)}%</div>
+            ${d2fc!=null?`<div class="${d2fc>=0?'dp2':'dn2'}" style="font-size:10px">${d2fc>=0?'+':''}${d2fc.toFixed(1)}% vs class</div>`:''}</div>`:''}
+          <div style="margin-left:auto;text-align:right"><div class="ct" style="margin-bottom:2px">Baseline</div>
+            <div class="${gc(baseline)}" style="font-family:var(--fm);font-size:12px">${baseline != null ? baseline.toFixed(2) + '%' : '—'}</div></div>`;
+      });
+    });
+  }
+
+  window.wiA = () => {
+    const cat = document.getElementById('wi-cat')?.value || cats[0] || '';
+    const nm  = document.getElementById('wi-nm')?.value.trim() || 'Hypothetical';
+    const sc  = parseFloat(document.getElementById('wi-sc')?.value);
+    const ps  = parseFloat(document.getElementById('wi-ps')?.value);
+    if (isNaN(sc) || isNaN(ps) || ps <= 0) return;
+    added.push({ name: nm, category: cat, score: String(sc), possible: String(ps), pct: sc/ps*100 });
+    render();
+  };
+  window.rmA  = i => { added.splice(i, 1); render(); };
+  window.wiR  = () => { work.forEach(a => { a.score = a._os; a.pct = a._op; a._ed = false; }); added.length = 0; render(); };
+
+  render();
+}
+
+function renderYearly(data,con){
+  // Allow weight editing — store overrides in S.wOverride[section_id]
+
+window.editWeights=function(currentW){
+  const sid=S.selected?.section_id;if(!sid)return;
+  const yd=S.yCache[sid];
+  const cats=[...new Set((yd?.yearly||[]).flatMap(y=>(y.assignments||[]).map(a=>a.category).filter(Boolean)))];
+
+  // groups = [{cats:[...], pct:''}]
+  // A group with multiple cats = those cats are pooled into one bucket at that %
+  // The % applies to the combined pool — not split, treated as one category
+  let groups=cats.map(cat=>({cats:[cat],pct:currentW[cat]!=null?String(Math.round(currentW[cat])):''}));
+
+  // If currentW already has merged groups (multiple cats with same pct), reconstruct them
+  // (simple heuristic: if two cats have identical pct in currentW, they were likely grouped)
+
+  const overlay=document.createElement('div');
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px';
+
+  const modal=document.createElement('div');
+  modal.style.cssText='background:var(--bg1);border:1px solid var(--border2);border-radius:12px;padding:24px;width:420px;max-width:93vw;max-height:88vh;overflow-y:auto;display:flex;flex-direction:column;gap:0';
+
+  function renderRows(){
+    const sel=groups.map((_,i)=>modal.querySelector(`input[data-sel="${i}"]`)?.checked||false);
+    const numSel=sel.filter(Boolean).length;
+    modal.querySelector('#we-merge-btn').style.display=numSel>=2?'block':'none';
+    modal.querySelector('#we-merge-btn').textContent=`Merge ${numSel} selected into one group`;
+
+    const rows=modal.querySelector('#we-rows');
+    rows.innerHTML=groups.map((g,gi)=>`
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 10px;border:1px solid var(--border2);border-radius:8px;margin-bottom:7px;background:var(--bg2)">
+        ${groups.length>1?`<input type="checkbox" data-sel="${gi}" style="accent-color:var(--accent);width:14px;height:14px;flex-shrink:0;cursor:pointer">`:''}
+        <div style="flex:1;display:flex;flex-wrap:wrap;gap:4px;align-items:center">
+          ${g.cats.map((cat,ci)=>`<span style="display:inline-flex;align-items:center;gap:3px;background:var(--bg0);border:1px solid var(--border2);border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600">
+            ${cat}
+            ${g.cats.length>1?`<button data-ungroup="${gi}" data-ci="${ci}" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:10px;padding:0 1px;line-height:1" title="Remove from group">✕</button>`:''}
+          </span>`).join('')}
+          ${g.cats.length>1?`<span style="font-size:10px;color:var(--accent);margin-left:2px">grouped</span>`:''}
+        </div>
+        <input type="number" min="0" max="100" step="1" placeholder="%" value="${g.pct}"
+          data-pct="${gi}"
+          style="width:58px;background:var(--bg0);border:1px solid var(--border2);border-radius:5px;color:var(--text);font-family:var(--fm);font-size:13px;padding:5px 7px;outline:none;text-align:right;flex-shrink:0">
+        <span style="font-size:12px;color:var(--text3);flex-shrink:0">%</span>
+      </div>`).join('');
+  }
+
+  modal.innerHTML=`
+    <div style="font-family:var(--fd);font-style:var(--fi);font-size:18px;margin-bottom:4px">Edit Weights</div>
+    <p style="font-size:11px;color:var(--text2);margin-bottom:12px">Enter each category's % weight. To combine categories into one shared bucket, check the boxes next to them and click Merge — they'll be treated as a single pooled category at that %.</p>
+    <button id="we-merge-btn" class="btn-s" style="display:none;width:100%;margin-bottom:10px;font-size:11px"></button>
+    <div id="we-rows"></div>
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border2);display:flex;flex-direction:column;gap:8px">
+      <button class="btn-s" style="width:100%;color:var(--text2)" onclick="setUnweighted()">Use Unweighted (total points only, ignore categories)</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn-a" style="flex:1" onclick="saveWeightsV2()">Save</button>
+        <button class="btn-s" style="flex:1" onclick="this.closest('[style*=fixed]').remove()">Cancel</button>
+      </div>
+    </div>`;
+
+  // Event delegation on modal
+  modal.addEventListener('input',e=>{
+    const gi=e.target.dataset?.pct;
+    if(gi!=null)groups[parseInt(gi)].pct=e.target.value;
+    // update merge button count when checkboxes change
+    const numSel=modal.querySelectorAll('input[data-sel]:checked').length;
+    const mb=modal.querySelector('#we-merge-btn');
+    mb.style.display=numSel>=2?'block':'none';
+    mb.textContent=`Merge ${numSel} selected into one group`;
+  });
+  modal.addEventListener('change',e=>{
+    const gi=e.target.dataset?.sel;
+    if(gi!=null){
+      const numSel=modal.querySelectorAll('input[data-sel]:checked').length;
+      const mb=modal.querySelector('#we-merge-btn');
+      mb.style.display=numSel>=2?'block':'none';
+      mb.textContent=`Merge ${numSel} selected into one group`;
+    }
+  });
+  modal.addEventListener('click',e=>{
+    // Merge button
+    if(e.target.id==='we-merge-btn'){
+      const checked=[...modal.querySelectorAll('input[data-sel]:checked')].map(el=>parseInt(el.dataset.sel));
+      if(checked.length<2)return;
+      // Merge all checked groups into the first one
+      const base=checked[0];
+      checked.slice(1).reverse().forEach(gi=>{
+        groups[base].cats.push(...groups[gi].cats);
+        groups.splice(gi,1);
+      });
+      groups[base].pct='';
+      renderRows();
+      return;
+    }
+    // Ungroup button
+    const ub=e.target.closest('[data-ungroup]');
+    if(ub){
+      const gi=parseInt(ub.dataset.ungroup),ci=parseInt(ub.dataset.ci);
+      const cat=groups[gi].cats.splice(ci,1)[0];
+      if(groups[gi].cats.length===0)groups.splice(gi,1);
+      groups.push({cats:[cat],pct:''});
+      renderRows();
+    }
+  });
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  window._weGroups=groups;
+  renderRows();
+};
+
+window.saveWeightsV2=function(){
+  const sid=S.selected?.section_id;if(!sid)return;
+  // Read current pct values from inputs directly (event delegation may have missed last change)
+  modal_cleanup:
+  {
+    const overlay=document.querySelector('[style*="position:fixed"][style*="z-index:500"]');
+    if(overlay){
+      overlay.querySelectorAll('input[data-pct]').forEach(el=>{
+        const gi=parseInt(el.dataset.pct);
+        if(window._weGroups[gi]!=null)window._weGroups[gi].pct=el.value;
+      });
+    }
+  }
+  const groups=window._weGroups||[];
+  const w={};let total=0;
+  for(const g of groups){
+    const pct=parseFloat(g.pct);
+    if(isNaN(pct)||pct<=0)continue;
+    total+=pct;
+    if(g.cats.length===1){
+      // Single category — straightforward
+      w[g.cats[0]]=pct;
+    } else {
+      // Grouped — store as a special pooled entry
+      // Key format: cats joined by '|', value is the total % for the pool
+      // ccalc will detect '|' keys and pool those categories together
+      const key=g.cats.join('|');
+      w[key]=pct;
+    }
+  }
+  if(total>0){
+    if(Math.abs(total-100)>1){const norm=100/total;Object.keys(w).forEach(k=>w[k]=Math.round(w[k]*norm*10)/10);}
+    S.wOverride[sid]=w;
+  } else {
+    delete S.wOverride[sid];
+  }
+  document.querySelector('[style*="position:fixed"][style*="z-index:500"]')?.remove();
+  const yd=S.yCache[sid];
+  if(yd){
+    const eff=S.wOverride[sid]?{weights:S.wOverride[sid]}:{weights:yd.weights,w_rmse:yd.w_rmse};
+    renderYearly({...yd,...eff},$('dpb'));
+  }
+};
+
+window.setUnweighted=function(){
+  const sid=S.selected?.section_id;if(!sid)return;
+  // Store a special sentinel so we know user explicitly chose unweighted
+  S.wOverride[sid]=null;
+  document.querySelector('[style*="position:fixed"][style*="z-index:500"]')?.remove();
+  const yd=S.yCache[sid];if(yd)renderYearly({...yd,weights:null,w_rmse:null},$('dpb'));
+};
+
+// saveWeights is kept as alias — new editor uses saveWeightsV2 directly
+window.saveWeights=window.saveWeightsV2;
+
+window.resetWeights=function(){
+  const sid=S.selected?.section_id;if(!sid)return;
+  delete S.wOverride[sid];
+  const yd=S.yCache[sid];if(yd)renderYearly(yd,$('dpb'));
+};
+  if(data.error){con.innerHTML=`<div class="empty">${data.error}</div>`;return}
+  const{yearly,weights,w_rmse}=data;let h='';
+  const sid=S.selected?.section_id;
+  const hasOv=sid&&(sid in S.wOverride);const effectiveW=hasOv?S.wOverride[sid]:weights;
+  const isOverridden=sid&&S.wOverride[sid]?true:false;
+
+  if(effectiveW){
+    const chips=Object.entries(effectiveW).sort((a,b)=>b[1]-a[1]).map(([k,v])=>{
+      const label=k.includes('|')?k.split('|').join(' + '):k;
+      return`<span class="wchip">${label} ${v}%</span>`;
+    }).join(' ');
+    h+=`<div style="margin-bottom:12px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div class="ct" style="margin:0">Weights <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">RMSE ${w_rmse||'?'}%${isOverridden?' · manual':''}
+      </span></div>
+      <button class="btn-s" style="padding:2px 8px;font-size:9px" onclick="editWeights(${JSON.stringify(effectiveW).replace(/"/g,'&quot;')})">Edit</button>
+      ${isOverridden?`<button class="btn-s" style="padding:2px 8px;font-size:9px;color:var(--red)" onclick="resetWeights()">Reset</button>`:''}
+    </div><div style="display:flex;gap:5px;flex-wrap:wrap">${chips}</div></div>`;
+  } else {
+    const unweightedLabel = (hasOv && S.wOverride[sid]===null)
+      ? 'Unweighted (manually set)'
+      : 'Unweighted — total points';
+    h+=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <span style="font-size:11px;color:var(--text3)">${unweightedLabel}</span>
+      <button class="btn-s" style="padding:2px 8px;font-size:9px" onclick="editWeights({})">Set weights</button>
+      ${(hasOv&&S.wOverride[sid]===null)?`<button class="btn-s" style="padding:2px 8px;font-size:9px;color:var(--red)" onclick="resetWeights()">Reset to auto</button>`:''}
+    </div>`; 
+  }
+  h+=`<table class="yt"><thead><tr><th style="text-align:left">Period</th><th>Grade</th><th>Class</th><th>Δ</th><th>Assignments</th></tr></thead><tbody>`;
+  const vo=[],vc=[];
+  yearly.forEach(y=>{if(!y.student_official&&!y.student_calc&&!y.n_assignments)return;
+    const d=(y.student_official??y.student_calc)!=null&&y.class_avg!=null?(y.student_official??y.student_calc)-y.class_avg:null;
+    // Show official only if it differs from calc (> 0.05% difference)
+    const showOfficial = y.student_official != null && y.student_calc != null
+      && Math.abs(y.student_official - y.student_calc) > 0.05;
+    const gradeDisplay = showOfficial
+      ? `${fmt(y.student_official)} <span style="font-family:var(--fm);font-size:10px;color:var(--text3)">(calc ${y.student_calc?.toFixed(1)}%)</span>`
+      : fmt(y.student_official ?? y.student_calc);
+    h+=`<tr><td>${y.period_name}</td><td>${gradeDisplay}</td><td>${y.class_avg!=null?`<span style="font-family:var(--fm);color:var(--text2)">${y.class_avg.toFixed(1)}%</span>`:'<span class="dim">—</span>'}</td><td>${dlt(d)}</td><td><span style="font-family:var(--fm);color:var(--text3);font-size:11px">${y.n_assignments}</span></td></tr>`;
+    if(y.student_official!=null)vo.push(y.student_official);if(y.class_avg!=null)vc.push(y.class_avg);});
+  h+=`</tbody></table>`;
+  if(vo.length){const ya=vo.reduce((s,v)=>s+v,0)/vo.length,ca=vc.length?vc.reduce((s,v)=>s+v,0)/vc.length:null,diff=ca!=null?ya-ca:null;
+    h+=`<div style="margin-top:12px;padding:12px 14px;background:var(--abg);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);border-radius:7px;display:flex;gap:20px;flex-wrap:wrap">
+      <div><div class="ct">Your Yearly</div><div class="${gc(ya)}" style="font-family:var(--fd);font-style:var(--fi);font-size:22px">${ya.toFixed(2)}%</div></div>
+      ${ca!=null?`<div><div class="ct">Class Avg</div><div style="font-family:var(--fd);font-style:var(--fi);font-size:22px;color:var(--text2)">${ca.toFixed(2)}%</div></div><div><div class="ct">Δ</div><div class="${diff>=0?'hi':'lo'}" style="font-family:var(--fd);font-style:var(--fi);font-size:22px">${diff>=0?'+':''}${diff.toFixed(2)}%</div></div>`:''}
+    </div>`;}
+  con.innerHTML=h;
+}
+
+function renderWI(as,wObj,knownAvg,con){
+  const W=wObj?Object.fromEntries(Object.entries(wObj).map(([k,v])=>[k,v/100])):null;
+  const work=as.filter(a=>a.pct!=null).map((a,i)=>({...a,_i:i,_os:a.score,_op:a.pct,_ed:false}));
+  const added=[];const base=knownAvg??ccalc([...work],W);
+  const cats=[...new Set(as.map(a=>a.category).filter(Boolean))];
+
+  function ccalc(rows,w){
+    const g=rows.filter(a=>a.pct!=null&&a.score&&a.possible);if(!g.length)return null;
+    if(!w){let e=0,p=0;g.forEach(a=>{const rs=String(a.score||'').trim();if(rs.startsWith('('))return;try{e+=parseFloat(rs);p+=parseFloat(String(a.possible||'').trim())}catch{}});return p>0?e/p*100:null;}
+    let ws=0,wt=0;for(const[cat,wv]of Object.entries(w)){if(!wv)continue;let e=0,p=0;
+      g.filter(a=>a.category===cat).forEach(a=>{const rs=String(a.score||'').trim();if(rs.startsWith('('))return;try{e+=parseFloat(rs);p+=parseFloat(String(a.possible||'').trim())}catch{}});if(p>0){ws+=(e/p*100)*wv;wt+=wv}}
+    return wt>0?ws/wt:null;}
+
+  function rdr(){
+    const all=[...work,...added],cur=ccalc(all,W),d=cur!=null&&base!=null?cur-base:null;
+    let h='';
+    if(wObj){const chips=Object.entries(wObj).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<span class="wchip">${k} ${v}%</span>`).join(' ');h+=`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px">${chips}</div>`;}
+    h+=`<div class="wir">
+      <div><div class="ct" style="margin-bottom:3px">Current</div><div class="${gc(cur)} wiv">${cur!=null?cur.toFixed(2)+'%':'—'}</div></div>
+      ${d!=null?`<div><div class="ct" style="margin-bottom:3px">Change</div><div class="${d>=0?'dp2':'dn2'} wid">${d>=0?'+':''}${d.toFixed(2)}%</div></div>`:''}
+      <div style="margin-left:auto;text-align:right"><div class="ct" style="margin-bottom:3px">Baseline</div><div class="${gc(base)}" style="font-family:var(--fm);font-size:12px">${base!=null?base.toFixed(2)+'%':'—'}</div></div></div>`;
+    h+=`<div style="overflow-x:auto"><table class="wit"><thead><tr><th>Assignment</th><th>Cat</th><th>Score</th><th>Of</th><th>%</th><th></th></tr></thead><tbody>`;
+    work.forEach((a,i)=>{const p=a.score&&a.possible?parseFloat(a.score)/parseFloat(a.possible)*100:null;
+      h+=`<tr id="wr${i}" class="${a._ed?'ed':''}"><td style="font-size:11px;font-weight:500;word-break:break-word;max-width:120px">${a.name}</td><td><span class="chip" style="font-size:8px">${(a.category||'').substring(0,8)}</span></td><td><input class="wi-in ws" data-i="${i}" value="${a.score||''}" type="number" step="0.5" min="0" max="${a.possible||999}" style="width:52px"></td><td style="font-family:var(--fm);color:var(--text2);font-size:11px">${a.possible||'?'}</td><td id="wp${i}" class="${gc(p)}" style="font-family:var(--fm);font-size:11px;font-weight:500">${p!=null?p.toFixed(1)+'%':'—'}</td><td style="font-size:9px;font-weight:700;color:var(--yellow);white-space:nowrap">${a._ed?'EDITED':''}</td></tr>`;});
+    added.forEach((a,i)=>{const p=parseFloat(a.score)/parseFloat(a.possible)*100;
+      h+=`<tr class="ad"><td style="font-size:11px;font-weight:500">${a.name}</td><td><span class="chip" style="font-size:8px">${(a.category||'').substring(0,8)}</span></td><td style="font-family:var(--fm);font-size:11px">${a.score}</td><td style="font-family:var(--fm);font-size:11px;color:var(--text2)">${a.possible}</td><td class="${gc(p)}" style="font-family:var(--fm);font-size:11px">${p.toFixed(1)}%</td><td><button onclick="rmA(${i})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px">✕</button></td></tr>`;});
+    h+=`</tbody></table></div><div class="wadd">
+      <select id="wi-cat" style="width:110px">${cats.map(c=>`<option value="${c}">${c}</option>`).join('')}</select>
+      <input id="wi-nm" placeholder="Name" style="flex:1;min-width:80px">
+      <input id="wi-sc" type="number" placeholder="Score" step="0.5" style="width:62px">
+      <input id="wi-ps" type="number" placeholder="Of" step="1" style="width:52px">
+      <button class="btn-a" onclick="wiA()">+ Add</button>
+      <button class="btn-s" onclick="wiR()">Reset</button></div>`;
+    con.innerHTML=h;
+
+    con.querySelectorAll('.ws').forEach(inp=>{inp.addEventListener('input',e=>{
+      const i=parseInt(e.target.dataset.i),s=parseFloat(e.target.value),p=parseFloat(String(work[i].possible||'0'));
+      if(!isNaN(s)&&p>0){work[i].score=String(s);work[i].pct=s/p*100;work[i]._ed=true;
+        const pe=$(`wp${i}`);if(pe){const pct=s/p*100;pe.textContent=pct.toFixed(1)+'%';pe.className=gc(pct)}
+        const re=$(`wr${i}`);if(re){re.classList.add('ed');const et=re.querySelector('td:last-child');if(et&&!et.textContent.trim())et.textContent='EDITED';}}
+      const cur2=ccalc([...work,...added],W),d2=cur2!=null&&base!=null?cur2-base:null;
+      const wr=con.querySelector('.wir');
+      if(wr)wr.innerHTML=`<div><div class="ct" style="margin-bottom:3px">Current</div><div class="${gc(cur2)} wiv">${cur2!=null?cur2.toFixed(2)+'%':'—'}</div></div>${d2!=null?`<div><div class="ct" style="margin-bottom:3px">Change</div><div class="${d2>=0?'dp2':'dn2'} wid">${d2>=0?'+':''}${d2.toFixed(2)}%</div></div>`:''}<div style="margin-left:auto;text-align:right"><div class="ct" style="margin-bottom:3px">Baseline</div><div class="${gc(base)}" style="font-family:var(--fm);font-size:12px">${base!=null?base.toFixed(2)+'%':'—'}</div></div>`;
+    });});
+  }
+
+  window.wiA=()=>{const cat=$('wi-cat')?.value||cats[0]||'',nm=$('wi-nm')?.value.trim()||'Hypothetical',sc=parseFloat($('wi-sc')?.value),ps=parseFloat($('wi-ps')?.value);if(isNaN(sc)||isNaN(ps)||ps<=0)return;added.push({name:nm,category:cat,score:String(sc),possible:String(ps),pct:sc/ps*100});rdr()};
+  window.rmA=i=>{added.splice(i,1);rdr()};
+  window.wiR=()=>{work.forEach(a=>{a.score=a._os;a.pct=a._op;a._ed=false});added.length=0;rdr()};
+  rdr();
+}
+
+function renderCP(as,yd,course,con){
+  const cats=[...new Set(as.map(a=>a.category).filter(Boolean))],w=yd?.weights||null;
+  con.innerHTML=`<div class="ct">Grade Calculator — ${course.name}</div>
+  <p style="font-size:12px;color:var(--text2);margin-bottom:14px">What score do you need to reach your target?</p>
+  <div class="gcr"><div class="gcf"><div class="gcl">Target (%)</div><input class="gci" id="pc-t" type="number" value="90" min="0" max="100" step="0.1"></div>
+    <div class="gcf"><div class="gcl">Assignment Points</div><input class="gci" id="pc-p" type="number" value="100" min="1" step="1"></div></div>
+  ${cats.length>1?`<div style="margin-bottom:12px"><div class="ct">Category</div><select id="pc-c" style="width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:var(--fm);font-size:13px;padding:8px 10px;outline:none">${cats.map(c=>{const wv=w?w[c]:null;return`<option value="${c}">${c}${wv?` (${wv}%)`:''}</option>`}).join('')}</select></div>`:''}
+  ${w?`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px">${Object.entries(w).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<span class="wchip">${k} ${v}%</span>`).join(' ')}</div>`:''}
+  <button class="btn-a" style="width:100%;padding:9px" onclick="runCP()">Calculate →</button><div id="pc-r"></div>`;
+  window.runCP=async()=>{
+    const tgt=parseFloat($('pc-t').value),pts=parseFloat($('pc-p').value),cat=cats.length>1?$('pc-c')?.value:'';
+    const res=$('pc-r');res.innerHTML='<div class="lc"><div class="spin"></div></div>';
+    // weights must be percentage values {cat: pct} for the API
+    const effW = (sid && S.wOverride[sid]) ? S.wOverride[sid] : w;
+    const r=await api('/api/grade_calc',{method:'POST',body:JSON.stringify({assignments:as,weights:effW,target_pct:tgt,future_possible:pts,category:cat})});
+    if(r.error){res.innerHTML=`<div style="color:var(--red);font-size:12px;margin-top:8px">${r.error}</div>`;return}
+    let sm2,sc2;
+    if(r.free){sm2='✓ Already above target';sc2='var(--green)';}
+    else if(r.impossible){sm2=`✗ Not achievable — need ${r.needed_score.toFixed(1)}/${pts} (${r.needed_pct?.toFixed(1)}%)`;sc2='var(--red)';}
+    else{sm2=`✓ Score ${r.needed_score.toFixed(1)}/${pts} (${r.needed_pct?.toFixed(1)}%)`;sc2='var(--green)';}
+    res.innerHTML=`<div class="gcres"><div style="display:flex;gap:14px;flex-wrap:wrap">
+      <div><div style="font-size:9px;color:var(--text3);margin-bottom:2px">Current</div><div class="${gc(r.current_avg)}" style="font-family:var(--fd);font-style:var(--fi);font-size:20px">${r.current_avg!=null?r.current_avg.toFixed(2)+'%':'—'}</div></div>
+      <div><div style="font-size:9px;color:var(--text3);margin-bottom:2px">Target</div><div style="font-family:var(--fd);font-style:var(--fi);font-size:20px;color:var(--accent)">${tgt}%</div></div>
+      ${!r.free?`<div><div style="font-size:9px;color:var(--text3);margin-bottom:2px">Need</div><div style="font-family:var(--fd);font-style:var(--fi);font-size:20px;color:${sc2}">${r.needed_score.toFixed(1)}/${pts}</div></div>`:''}
+    </div><div style="margin-top:8px;font-size:12px;font-weight:600;color:${sc2}">${sm2}</div></div>`;
+  };
+}
+
+(async()=>{
+  const cb=$('tos-cb-login');
+  if(localStorage.getItem('pp-tos')==='1'){
+    // Previously accepted — pre-check the box so it's clear consent is on record
+    // They can uncheck to withdraw, which will disable the button
+    if(cb)cb.checked=true;
+    const btn=$('l-btn');
+    if(btn){btn.disabled=false;btn.style.opacity='1';btn.style.cursor='pointer';}
+  } else {
+    // First visit — force unchecked regardless of browser autocomplete
+    if(cb)cb.checked=false;
+  }
+
+  const st=await api('/api/status');
+  if(st.logged_in)await boot();
+})();
+</script>
+</body>
+</html>
