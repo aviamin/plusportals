@@ -530,7 +530,12 @@ const dlt=d=>d==null?`<span class="dim">—</span>`:`<span class="${d>=0?'dp2':'
 const RAILWAY_URL='https://web-production-3c9c5.up.railway.app';
 // Auto-detects: empty string when local (relative URLs work), Railway URL in production
 const API_BASE=window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1'?'':RAILWAY_URL;
-const api=async(p,o={})=>{const r=await fetch(API_BASE+p,{headers:{'Content-Type':'application/json'},credentials:'include',...o});return r.json()};
+const _tok=()=>localStorage.getItem('pp-tok')||'';
+const api=async(p,o={})=>{
+  const hdrs={'Content-Type':'application/json','X-Session-Token':_tok(),...(o.headers||{})};
+  try{const r=await fetch(API_BASE+p,{...o,headers:hdrs});const t=await r.text();try{return JSON.parse(t);}catch{return{error:'Server error ('+r.status+')'};}}
+  catch(e){return{error:'Connection error: '+e.message};}
+};
 const lgr=p=>p>=93?'A':p>=90?'A-':p>=87?'B+':p>=83?'B':p>=80?'B-':p>=77?'C+':p>=73?'C':p>=70?'C-':p>=67?'D+':p>=63?'D':p>=60?'D-':'F';
 
 // ── Terms of Service ────────────────────────────────────────────────────────
@@ -570,14 +575,16 @@ async function doLogin(){
   localStorage.setItem('pp-tos','1');
   const btn=$('l-btn');btn.disabled=true;btn.textContent='Signing in…';$('l-err').textContent='';
   try{const r=await api('/api/login',{method:'POST',body:JSON.stringify({school:$('l-sch').value.trim(),username:$('l-usr').value.trim(),password:$('l-pw').value})});
-    if(r.error){$('l-err').textContent=r.error;return}await boot();}
+    if(r.error){$('l-err').textContent=r.error;return}
+    if(r.token)localStorage.setItem('pp-tok',r.token);
+    await boot();}
   catch(e){$('l-err').textContent='Connection error'}
   finally{btn.disabled=false;btn.textContent='Sign In →'}
 }
 $('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
 $('l-usr').addEventListener('keydown',e=>{if(e.key==='Enter')$('l-pw').focus()});
 $('l-sch').addEventListener('keydown',e=>{if(e.key==='Enter')$('l-usr').focus()});
-async function doLogout(){await api('/api/logout',{method:'POST'});location.reload()}
+async function doLogout(){await api('/api/logout',{method:'POST'});localStorage.removeItem('pp-tok');location.reload()}
 
 async function boot(){
   const d=await api('/api/init');if(d.error){$('l-err').textContent=d.error;return}
@@ -1547,6 +1554,7 @@ function renderCP(as,yd,course,con){
     if(cb)cb.checked=false;
   }
 
+  if(!_tok()){return;}
   const st=await api('/api/status');
   if(st.logged_in)await boot();
 })();
