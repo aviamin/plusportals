@@ -598,6 +598,7 @@ async function boot(){
     $('ni-analytics')?.classList.add('on');
     renderAnalytics();
     renderSBCourses();
+    updateSBStats();
   };
   tabs.appendChild(yt);
   if(!S.pid&&S.periods.length)S.pid=S.periods[S.periods.length-1].id;
@@ -634,17 +635,20 @@ function updPTabs(){
 }
 
 async function switchPeriod(pid){
+  // If on yearly view, switch back to grades so period tabs work naturally
+  if(S.view==='yearly'){
+    S.view='grades';
+    ['grades','analytics','yearly','calc','profile'].forEach(v=>{$('v-'+v).style.display=v==='grades'?'block':'none';$('ni-'+v)?.classList.toggle('on',v==='grades')});
+  }
   S.pid=pid;updPTabs();renderGrades();
   if(S.selected&&(S.dpTab==='asgn'||S.dpTab==='whatif'||S.dpTab==='calc')){
-    // Update panel header grade for new period
     const courses=S.allGrades[pid]||[];
     const nc=courses.find(c=>c.section_id===S.selected.section_id);
     if(nc){S.selected=nc;updateDPHeader(nc)}
     await loadDP(S.dpTab);
   }
   updateSBStats();
-  if(S.view==='analytics')renderAnalytics();
-  else if(S.view==='yearly'){renderYearlyOv();renderSBCourses();}
+  if(S.view==='analytics'||S.view==='yearly')renderAnalytics();
   prefetch((S.allGrades[pid]||[]).map(c=>c.section_id));
 }
 
@@ -707,14 +711,33 @@ async function runPrefetch(){
 }
 function nav(view){
   S.view=view;
-  ['grades','analytics','yearly','calc','profile'].forEach(v=>{$(`v-${v}`).style.display=v===view?'block':'none';$(`ni-${v}`)?.classList.toggle('on',v===view)});
+  ['grades','analytics','yearly','calc','profile'].forEach(v=>{$('v-'+v).style.display=v===view?'block':'none';$('ni-'+v)?.classList.toggle('on',v===view)});
+  // Always clear yearly tab highlight unless explicitly on yearly
+  if(view!=='yearly')$('ptab-yr')?.classList.remove('on');
   updPTabs();
   if(view==='analytics')renderAnalytics();
-  else if(view==='yearly'){renderYearlyOv();renderAnalytics();renderSBCourses();} // also refresh analytics for yearly mode
+  else if(view==='yearly'){renderYearlyOv();renderAnalytics();renderSBCourses();updateSBStats();}
   else if(view==='profile')renderProfile();
   else if(view==='calc')renderCalcView();
 }
 
+function updateSBStats(){
+  if(S.view==='yearly'){
+    // Average across all periods and all courses
+    const allPcts=Object.values(S.allGrades).flatMap(cs=>cs.map(c=>c.grade_pct)).filter(x=>x!=null);
+    const dispP=allPcts.length?allPcts.reduce((a,b)=>a+b,0)/allPcts.length:null;
+    $('sb-gpa').textContent=dispP!=null?gpa(dispP).toFixed(2):'—';
+    $('sb-gpa').className='sb-gv '+(dispP?gc(dispP):'dim');
+    $('sb-avg').textContent=dispP?dispP.toFixed(1)+'% yr avg':'—';
+  } else {
+    const cs=S.allGrades[S.pid]||[];
+    const v=cs.filter(c=>c.grade_pct!=null);
+    const avgP=v.length?v.reduce((s,c)=>s+c.grade_pct,0)/v.length:null;
+    $('sb-gpa').textContent=avgP!=null?gpa(avgP).toFixed(2):'—';
+    $('sb-gpa').className='sb-gv '+(avgP?gc(avgP):'dim');
+    $('sb-avg').textContent=avgP?avgP.toFixed(1)+'% avg':'—';
+  }
+}
 function renderGrades(){
   const cs=S.allGrades[S.pid]||[],p=S.periods.find(p=>p.id===S.pid)||{};
   const v=cs.filter(c=>c.grade_pct!=null);
@@ -1496,7 +1519,7 @@ function renderCP(as,yd,course,con){
     const tgt=parseFloat($('pc-t').value),pts=parseFloat($('pc-p').value),cat=cats.length>1?$('pc-c')?.value:'';
     const res=$('pc-r');res.innerHTML='<div class="lc"><div class="spin"></div></div>';
     // weights must be percentage values {cat: pct} for the API
-    const effW = (sid && S.wOverride[sid]) ? S.wOverride[sid] : w;
+    const effW = (course.section_id && S.wOverride[course.section_id]) ? S.wOverride[course.section_id] : w;
     const r=await api('/api/grade_calc',{method:'POST',body:JSON.stringify({assignments:as,weights:effW,target_pct:tgt,future_possible:pts,category:cat})});
     if(r.error){res.innerHTML=`<div style="color:var(--red);font-size:12px;margin-top:8px">${r.error}</div>`;return}
     let sm2,sc2;
