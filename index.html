@@ -575,7 +575,16 @@ async function doLogin(){
   localStorage.setItem('pp-tos','1');
   const btn=$('l-btn');btn.disabled=true;btn.textContent='Signing in…';$('l-err').textContent='';
   try{const r=await api('/api/login',{method:'POST',body:JSON.stringify({school:$('l-sch').value.trim(),username:$('l-usr').value.trim(),password:$('l-pw').value})});
-    if(r.error){$('l-err').textContent=r.error;return}
+    if(r.error){
+      if(r.error==='whitelist'){
+        $('l-err').innerHTML='Your account is not on the access list.<br><span style="font-size:11px;color:var(--text3)">Contact <strong>Avi Amin</strong> to request access.</span>';
+      } else if(r.error==='blacklist'){
+        $('l-err').innerHTML='Your account has been blocked.<br><span style="font-size:11px;color:var(--text3)">Contact <strong>Avi Amin</strong> if you think this is a mistake.</span>';
+      } else {
+        $('l-err').textContent=r.error;
+      }
+      return;
+    }
     if(r.token)localStorage.setItem('pp-tok',r.token);
     await boot();}
   catch(e){$('l-err').textContent='Connection error'}
